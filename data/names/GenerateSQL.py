@@ -1,4 +1,8 @@
 from __future__ import print_function;
+import hashlib, uuid; 
+
+salt = uuid.uuid4().hex;
+
 sqlFile = open('people.sql', 'w'); 
 
 def user(id, name, email, password):
@@ -16,7 +20,7 @@ with open('people.txt') as f:
 		while True:
 			name = f.next().strip(); 
 			email = f.next().strip(); 
-			pw = f.next().strip(); # Hash password later
+			pw = hashlib.sha512(f.next().strip() + salt).hexdigest(); # Hash password later
 			role = f.next().strip(); 
 			user(uid, name, email, pw); 
 			if role == 'Coach': 
