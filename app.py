@@ -12,11 +12,6 @@ app = Flask(__name__)
 app.config.from_object('settings')
 app.config['DEBUG'] = True
 
-# 
-# Athletics Organizer
-# Authors: Mark Hudnall and Sam Konowitch
-# Emails: mhh02009@mymail.pomona.edu, sk032009@mymail.pomona.edu
-# 
 
 # Decorator for view functions. Checks whether there is a user_id in the 
 # current session. If not, redirects to login page. If so, runs the view 
