@@ -32,14 +32,14 @@
 #   'allit': '0'
 # }
 
-# r=requests.post('http://listofrandomnames.com/index.cfm?generated', headers=headers, cookies=cookies, data=data)
-
-# f = open('Names.html', 'w'); 
-# f.write(r.text); 
-# f.close(); 
+# for i in range(0,6):
+#   r=requests.post('http://listofrandomnames.com/index.cfm?generated', headers=headers, cookies=cookies, data=data)
+#   f = open('Names%d.html' % i, 'w'); 
+#   f.write(r.text.encode('utf8')); 
+#   f.close(); 
 # 
 # 
-# Names from http://listofrandomnames.com/index.cfm?generated using a post request using above code
+# # Names from http://listofrandomnames.com/index.cfm?generated using a post request using above code
 
 from __future__ import print_function; 
 
@@ -58,10 +58,10 @@ with open('firsts.txt') as firsts:
             print(full, file = f); 
             print("%s.%s@gmail.com" % (first.lower(), last.lower()), file = f); 
             print("abc123", file = f);
-            if i < 20:
+            if i < 200:
             	print("Coach", file = f); 
             	print(randint(100000,500000), file= f);
-            elif i<500:
+            elif i<5000:
             	print("Athlete", file = f);
             	print(randint(150,250), file = f);
             	print(randint(65,80), file = f); 
