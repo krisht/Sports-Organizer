@@ -60,3 +60,165 @@ Legs
 
 Upright Rows
 Chest
+
+Ab Roller
+Core
+
+Alternate Incline Dumbbell Curl
+Biceps
+
+Assisted Chin-Up
+Biceps
+
+Leg Extensions
+Legs
+
+Leg Lift
+Legs
+
+Leg Press
+Legs
+
+Leverage Shrug
+Shoulders
+
+Leverage Shoulder Press
+Shoulders
+
+Linear Depth Jump
+Legs
+
+Log Lift
+Shoulders
+
+Low Cable Crossover
+Chest
+
+Lower Back Curl
+Core
+
+Face Pull
+Shoulders
+
+Parallel Bar Dip
+Triceps
+
+Plate Row
+Biceps
+
+Plyo Kettlebell Pushups
+Chest
+
+Pop Squat
+Legs
+
+Power Stairs
+Legs
+
+Preacher Curl
+Biceps
+
+Pallof Press
+Core
+
+Kettlebell Windmill
+Core
+
+Kneeling Squat
+Legs
+
+Medicine Ball Rotational Throw
+Core
+
+Muscle Snatch
+Legs
+
+Scissor Kick
+Core
+
+Seated Barbell Twist
+Core
+
+Seated Biceps
+Biceps
+
+Shoulder Tap
+Core
+
+Side Laterals to Front Raise
+Shoulders
+
+Side Lunge
+Legs
+
+Sledge Hammer Swings
+Core
+
+Standing Alternating Dumbbell Press
+Shoulders
+
+Suspended Chest Fly
+Chest
+
+Svend Press
+Chest
+
+Hip Lift Weight Band
+Legs
+
+Hurdles Hops
+Legs
+
+Elbow to Knee
+Core
+
+EZ-Bar Curl
+Biceps
+
+EZ-Bar Skull Crusher
+Triceps
+
+External Rotation
+Shoulders
+
+Reverse Grips Triceps Pushdown
+Triceps
+
+Reverse Triceps Bench Press
+Triceps
+
+Russian Bar Dip
+Triceps
+
+Decline Dumbbell Flyes
+Chest
+
+Decline Dumbbell Triceps Extension
+Triceps
+
+Diamond Push-up
+Chest
+
+Dive Bomber Push-up
+Chest
+
+Drag Curl
+Biceps
+
+Dumbbell Overhead Squat
+Legs
+
+Dumbbell Scaption
+Shoulders
+
+Dumbbell Shrug
+Shoulders
+
+Dynamic Chest Stretch
+Chest
+
+Decline Crunch
+Core
+
+Vertical Swing
+Legs
