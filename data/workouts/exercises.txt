@@ -1,224 +1,389 @@
-Bench Press
-Chest
+Back Extension Vers. A
+Lower Back
 
-Pushups
-Chest
-
-Pullups
-Chest
-
-Crunches
-Core
-
-Planks
-Core
-
-Squats
-Legs
-
-Power Cleans
+Deadlift Vers. A
 Full Body
 
-Lunges
-Legs
+Crunch Vers. A
+Abdominals
 
-Side Lunges
-Legs
+Leg Raise Vers. A
+Abdominals
 
-Power Jerks
+Russian Twist Vers. A
+Abdominals
+
+Preacher Curl Vers. A
+Biceps
+
+Standing Barbell Curl Vers. A
+Biceps
+
+Alt. Rot. Dumbbell Curl Vers. A
+Biceps
+
+Hammer Curl Vers. A
+Biceps
+
+Zottmann Curl Vers. A
+Biceps
+
+Pushdown Vers. A
+Triceps
+
+Triceps Extension Vers. A
+Triceps
+
+French Curl Vers. A
+Triceps
+
+Lying Triceps Extension Vers. A
+Triceps
+
+Upright Row Vers. A
+Deltoids
+
+Shoulder Press Vers. A
+Deltoids
+
+Seated Shoulder Press Vers. A
+Deltoids
+
+Military Press Vers. A
+Deltoids
+
+Arnold Press Vers. A
+Deltoids
+
+Lateral Raise Vers. A
+Deltoids
+
+Shoulder Fly Vers. A
+Deltoids
+
+Front Raise Vers. A
+Deltoids
+
+Bentover Lateral Raise Vers. A
+Deltoids
+
+180 Degree Lateral Raise Vers. A
+Deltoids
+
+Pulldown Vers. A
+Mid Back
+
+Pullup Vers. A
+Mid Back
+
+Bent-over Row Vers. A
+Mid Back
+
+Cable Row Vers. A
+Mid Back
+
+Closegrip Pulldown Vers. A
+Mid Back
+
+Closegrip Pullup Vers. A
+Mid Back
+
+Closegrip Cable Row Vers. A
+Mid Back
+
+Bench Press Vers. A
+Chest
+
+Dumbbell Bench Press Vers. A
+Chest
+
+Incline Bench Press Vers. A
+Chest
+
+Incline Dumbell Bench Press Vers. A
+Chest
+
+Back Extension Vers. B
+Lower Back
+
+Deadlift Vers. B
 Full Body
 
-Hang Cleans
+Crunch Vers. B
+Abdominals
+
+Leg Raise Vers. B
+Abdominals
+
+Russian Twist Vers. B
+Abdominals
+
+Preacher Curl Vers. B
+Biceps
+
+Standing Barbell Curl Vers. B
+Biceps
+
+Alt. Rot. Dumbbell Curl Vers. B
+Biceps
+
+Hammer Curl Vers. B
+Biceps
+
+Zottmann Curl Vers. B
+Biceps
+
+Pushdown Vers. B
+Triceps
+
+Triceps Extension Vers. B
+Triceps
+
+French Curl Vers. B
+Triceps
+
+Lying Triceps Extension Vers. B
+Triceps
+
+Upright Row Vers. B
+Deltoids
+
+Shoulder Press Vers. B
+Deltoids
+
+Seated Shoulder Press Vers. B
+Deltoids
+
+Military Press Vers. B
+Deltoids
+
+Arnold Press Vers. B
+Deltoids
+
+Lateral Raise Vers. B
+Deltoids
+
+Shoulder Fly Vers. B
+Deltoids
+
+Front Raise Vers. B
+Deltoids
+
+Bentover Lateral Raise Vers. B
+Deltoids
+
+180 Degree Lateral Raise Vers. B
+Deltoids
+
+Pulldown Vers. B
+Mid Back
+
+Pullup Vers. B
+Mid Back
+
+Bent-over Row Vers. B
+Mid Back
+
+Cable Row Vers. B
+Mid Back
+
+Closegrip Pulldown Vers. B
+Mid Back
+
+Closegrip Pullup Vers. B
+Mid Back
+
+Closegrip Cable Row Vers. B
+Mid Back
+
+Bench Press Vers. B
+Chest
+
+Dumbbell Bench Press Vers. B
+Chest
+
+Incline Bench Press Vers. B
+Chest
+
+Incline Dumbell Bench Press Vers. B
+Chest
+
+Back Extension Vers. C
+Lower Back
+
+Deadlift Vers. C
 Full Body
 
-DB Squats
-Legs
+Crunch Vers. C
+Abdominals
 
-Incline Bench Press
+Leg Raise Vers. C
+Abdominals
+
+Russian Twist Vers. C
+Abdominals
+
+Preacher Curl Vers. C
+Biceps
+
+Standing Barbell Curl Vers. C
+Biceps
+
+Alt. Rot. Dumbbell Curl Vers. C
+Biceps
+
+Hammer Curl Vers. C
+Biceps
+
+Zottmann Curl Vers. C
+Biceps
+
+Pushdown Vers. C
+Triceps
+
+Triceps Extension Vers. C
+Triceps
+
+French Curl Vers. C
+Triceps
+
+Lying Triceps Extension Vers. C
+Triceps
+
+Upright Row Vers. C
+Deltoids
+
+Shoulder Press Vers. C
+Deltoids
+
+Seated Shoulder Press Vers. C
+Deltoids
+
+Military Press Vers. C
+Deltoids
+
+Arnold Press Vers. C
+Deltoids
+
+Lateral Raise Vers. C
+Deltoids
+
+Shoulder Fly Vers. C
+Deltoids
+
+Front Raise Vers. C
+Deltoids
+
+Bentover Lateral Raise Vers. C
+Deltoids
+
+180 Degree Lateral Raise Vers. C
+Deltoids
+
+Pulldown Vers. C
+Mid Back
+
+Pullup Vers. C
+Mid Back
+
+Bent-over Row Vers. C
+Mid Back
+
+Cable Row Vers. C
+Mid Back
+
+Closegrip Pulldown Vers. C
+Mid Back
+
+Closegrip Pullup Vers. C
+Mid Back
+
+Closegrip Cable Row Vers. C
+Mid Back
+
+Bench Press Vers. C
 Chest
 
-Decline Bench Press
+Dumbbell Bench Press Vers. C
 Chest
 
-DB Bench Press
+Incline Bench Press Vers. C
 Chest
 
-DB Cleans
+Incline Dumbell Bench Press Vers. C
+Chest
+
+Back Extension Vers. D
+Lower Back
+
+Deadlift Vers. D
 Full Body
 
-Deadlift
-Legs
+Crunch Vers. D
+Abdominals
 
-Snatch
-Full Body
+Leg Raise Vers. D
+Abdominals
 
-DB Snatch
-Full Body
+Russian Twist Vers. D
+Abdominals
 
-Front Squats
-Legs
-
-Upright Rows
-Chest
-
-Ab Roller
-Core
-
-Alternate Incline Dumbbell Curl
+Preacher Curl Vers. D
 Biceps
 
-Assisted Chin-Up
+Standing Barbell Curl Vers. D
 Biceps
 
-Leg Extensions
-Legs
+Alt. Rot. Dumbbell Curl Vers. D
+Biceps
 
-Leg Lift
-Legs
+Hammer Curl Vers. D
+Biceps
 
-Leg Press
-Legs
+Zottmann Curl Vers. D
+Biceps
 
-Leverage Shrug
-Shoulders
-
-Leverage Shoulder Press
-Shoulders
-
-Linear Depth Jump
-Legs
-
-Log Lift
-Shoulders
-
-Low Cable Crossover
-Chest
-
-Lower Back Curl
-Core
-
-Face Pull
-Shoulders
-
-Parallel Bar Dip
+Pushdown Vers. D
 Triceps
 
-Plate Row
-Biceps
-
-Plyo Kettlebell Pushups
-Chest
-
-Pop Squat
-Legs
-
-Power Stairs
-Legs
-
-Preacher Curl
-Biceps
-
-Pallof Press
-Core
-
-Kettlebell Windmill
-Core
-
-Kneeling Squat
-Legs
-
-Medicine Ball Rotational Throw
-Core
-
-Muscle Snatch
-Legs
-
-Scissor Kick
-Core
-
-Seated Barbell Twist
-Core
-
-Seated Biceps
-Biceps
-
-Shoulder Tap
-Core
-
-Side Laterals to Front Raise
-Shoulders
-
-Side Lunge
-Legs
-
-Sledge Hammer Swings
-Core
-
-Standing Alternating Dumbbell Press
-Shoulders
-
-Suspended Chest Fly
-Chest
-
-Svend Press
-Chest
-
-Hip Lift Weight Band
-Legs
-
-Hurdles Hops
-Legs
-
-Elbow to Knee
-Core
-
-EZ-Bar Curl
-Biceps
-
-EZ-Bar Skull Crusher
+Triceps Extension Vers. D
 Triceps
 
-External Rotation
-Shoulders
-
-Reverse Grips Triceps Pushdown
+French Curl Vers. D
 Triceps
 
-Reverse Triceps Bench Press
+Lying Triceps Extension Vers. D
 Triceps
 
-Russian Bar Dip
-Triceps
+Upright Row Vers. D
+Deltoids
 
-Decline Dumbbell Flyes
-Chest
+Shoulder Press Vers. D
+Deltoids
 
-Decline Dumbbell Triceps Extension
-Triceps
+Seated Shoulder Press Vers. D
+Deltoids
 
-Diamond Push-up
-Chest
+Military Press Vers. D
+Deltoids
 
-Dive Bomber Push-up
-Chest
+Arnold Press Vers. D
+Deltoids
 
-Drag Curl
-Biceps
+Lateral Raise Vers. D
+Deltoids
 
-Dumbbell Overhead Squat
-Legs
+Shoulder Fly Vers. D
+Deltoids
 
-Dumbbell Scaption
-Shoulders
+Front Raise Vers. D
+Deltoids
 
-Dumbbell Shrug
-Shoulders
+Bentover Lateral Raise Vers. D
+Deltoids
 
-Dynamic Chest Stretch
-Chest
+180 Degree Lateral Raise Vers. D
+Deltoids
 
-Decline Crunch
-Core
-
-Vertical Swing
-Legs
+Pulldown Vers. D
+Mid Back

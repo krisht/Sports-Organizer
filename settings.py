@@ -2,7 +2,7 @@
 
 
 DB_HOST = 'localhost'
-DB_NAME = 'MyCoach'
+DB_NAME = 'MyCoachDatabase'
 DB_USER = 'admin'
 DB_PASSWORD = 'admin'
 

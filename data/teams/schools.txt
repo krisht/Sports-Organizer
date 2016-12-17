@@ -1,220 +1,220 @@
-Princeton University
-Harvard University
-University of Chicago
-Yale University
-Columbia University
-Stanford University
-Massachusetts Institute of Technology
-Duke University
-University of North Carolina
-University of Pennsylvania
-Johns Hopkins University
-Dartmouth College
-California Institute of Technology
-Northwestern University
-Brown University
-Cornell University
-Rice University
-University of Notre Dame
-Vanderbilt University
-Washington University in St. Louis
-Emory University
-Georgetown University
-Syracuse University
-University of California
-University of Southern California
-Carnegie Mellon University
-University of Virginia
-Tufts University
-University of Michigan
-Ohio State
-Wake Forest University
-Boston College
-College of William & Mary
-University of Rochester
-Brandeis University
-Georgia Institute of Technology
-University of Georgia
-New York University
-Case Western Reserve University
-Boston University
-Northeastern University
-Rensselaer Polytechnic Institute
-Tulane University
-Lehigh University
-Lafayette College
-University of Illinois at Urbana
-University of Miami
-University of Wisconsin
-Pennsylvania State University
-Pepperdine University
-University of Florida
-Villanova University.
-Ohio State University
-University of Washington
-George Washington University
-Southern Methodist University
-University of Texas
-Fordham University
-Purdue University
-University of Connecticut
-University of Maryland
-Worcester Polytechnic Institute
-Clemson University
-Yeshiva University
-Brigham Young University
-University of Pittsburgh
-Rutgers University
-Baylor University
-Stevens Institute of Technology
-University of Minnesota
-American University
-Clark University
-College of the Holy Cross
-Texas A&M University
-University of Massachusetts
-Hampshire College
-Virginia Tech
-Miami University
-University of Delaware
-Colorado School of Mines
-Michigan State University
-Texas Christian University
-University of Iowa
-Binghamton University
-Indiana University
-Marquette University
-University of Denver
-University of San Diego
-University of Tulsa
-Florida State University
-Florida A&M University
-North Carolina State University
-University of Colorado
-University of Vermont
-Drexel University
-University of the Sciences in Philadelphia
-Saint Louis University
-Stony Brook University
-Auburn University
-Loyola University Chicago
-SUNY College of Environmental Science and Forestry
-University at Buffalo
-Illinois Institute of Technology
-University of Alabama
-University of Oregon
-University of Tennessee
-Rochester Institute of Technology
-University of New Hampshire
-University of San Francisco
-University of South Carolina
-Iowa State University
-University of Dayton
-University of Missouri
-University of Nebraska
-University of Oklahoma
-University of the Pacific
-University of Utah
-School of Medicine
-Michigan Technological University
-Seton Hall University
-Temple University
-University of Kansas
-University of St. Thomas
-The Catholic University of America
-DePaul University
-Columbia College
-Duquesne University
-Howard University
-University of Arizona
-Arizona State University
-Clarkson University
-Colorado State University
-New School
-Hofstra University
-University of Kentucky
-Kansas State University
-Louisiana State University
-Mercer University
-New Jersey Institute of Technology
-University of Arkansas
-University of Cincinnati
-University of Mississippi
-George Mason University
-Oregon State University
-Washington State University
 Adelphi University
-Ohio University
-San Diego State University
-St. John Fisher College
-University at Albany
+American University
+Andrews University
+Arizona State University
+Ashland University
+Auburn University
+Azusa Pacific University
+Ball State University
+Barnard College
+Baylor University
+Benedictine University
+Binghamton University
+Biola University
+Boston College
+Boston University
+Bowling Green State University
+Brandeis University
+Brigham Young University
+Brown University
+California Institute of Technology
+California State University
+Carleton College
+Carnegie Mellon University
+Case Western Reserve University
+Central Michigan University
+Clark University
+Clarkson University
+Clemson University
+College of William & Mary
+College of the Holy Cross
+Colorado School of Mines
+Colorado State University
+Columbia College
+Columbia University
+Cooper Union
+Cornell University
+Dallas Baptist University
+Darden College of Education
+Dartmouth College
+DePaul University
+Drexel University
+Duke University
+Duquesne University
+East Carolina University
+Edgewood College
+Emory University
+Florida A&M University
+Florida Institute of Technology
+Florida State University
+Fordham University
+George Mason University
+George Washington University
+Georgetown University
+Georgia Institute of Technology
+Hampshire College
+Harvard University
+Hofstra University
+Howard University
+Illinois Institute of Technology
 Illinois State University
 Immaculata University
-Oklahoma State University
-Ole Miss
-University of Illinois
-University of La Verne
-Seattle Pacific University
-University of Rhode Island
-University of South Florida
-Biola University
-Maryville University of St. Louis
-Missouri University of Science & Technology
-St. John's University
-Virginia Commonwealth University
-Union University
-University of Hawaii
-Edgewood College
-Florida Institute of Technology
-University of Idaho
-University of Louisville
-University of Wyoming
-Ball State University
-Lipscomb University
-Mississippi State University
-Montclair State University
-Texas Tech University
-University of Central Florida
-University of New Mexico
-Andrews University
-Azusa Pacific University
-University of Maine
-West Virginia University
-Widener University
+Indiana University
+Iowa State University
+Johns Hopkins University
+Kansas State University
 Kent State University
-North Dakota State University
-Pace University
-Robert Morris University
-Suffolk University
-University of Hartford
-Bowling Green State University
-University of Houston
-Western Michigan University
+Lafayette College
+Lehigh University
 Lesley University
-University of Nevada
-California State University
-Central Michigan University
+Lipscomb University
+Louisiana State University
 Louisiana Tech University
-South Dakota State University
-University of Alaska
-University of North Dakota
-University of South Dakota
-East Carolina University
+Loyola University Chicago
+Marquette University
+Maryville University of St. Louis
+Massachusetts Institute of Technology
+Mercer University
+Miami University
+Michigan State University
+Michigan Technological University
+Mississippi State University
+Missouri University of Science & Technology
 Montana State University
-Old Dominion University
-Darden College of Education
-Ashland University
-Dallas Baptist University
+Montclair State University
+New Jersey Institute of Technology
+New School
+New York University
+North Carolina State University
+North Dakota State University
+Northeastern University
 Northern Illinois University
+Northwestern University
 Nova Southeastern University
-Southern Illinois University
-University of Montana
-Benedictine University
-Cooper Union
-The College of New Jersey
-Barnard College
-Vassar College
-Trinity College
-Carleton College
-Wellesley College
+Ohio State
+Ohio State University
+Ohio University
+Oklahoma State University
+Old Dominion University
+Ole Miss
+Oregon State University
+Pace University
+Pennsylvania State University
+Pepperdine University
+Princeton University
+Purdue University
 Reed College
+Rensselaer Polytechnic Institute
+Rice University
+Robert Morris University
+Rochester Institute of Technology
+Rutgers University
+SUNY College of Environmental Science and Forestry
+Saint Louis University
+San Diego State University
+School of Medicine
+Seattle Pacific University
+Seton Hall University
+South Dakota State University
+Southern Illinois University
+Southern Methodist University
+St. John Fisher College
+St. John's University
+Stanford University
+Stevens Institute of Technology
+Stony Brook University
+Suffolk University
+Syracuse University
+Temple University
+Texas A&M University
+Texas Christian University
+Texas Tech University
+The Catholic University of America
+The College of New Jersey
+Trinity College
+Tufts University
+Tulane University
+Union University
+University at Albany
+University at Buffalo
+University of Alabama
+University of Alaska
+University of Arizona
+University of Arkansas
+University of California
+University of Central Florida
+University of Chicago
+University of Cincinnati
+University of Colorado
+University of Connecticut
+University of Dayton
+University of Delaware
+University of Denver
+University of Florida
+University of Georgia
+University of Hartford
+University of Hawaii
+University of Houston
+University of Idaho
+University of Illinois
+University of Illinois at Urbana
+University of Iowa
+University of Kansas
+University of Kentucky
+University of La Verne
+University of Louisville
+University of Maine
+University of Maryland
+University of Massachusetts
+University of Miami
+University of Michigan
+University of Minnesota
+University of Mississippi
+University of Missouri
+University of Montana
+University of Nebraska
+University of Nevada
+University of New Hampshire
+University of New Mexico
+University of North Carolina
+University of North Dakota
+University of Notre Dame
+University of Oklahoma
+University of Oregon
+University of Pennsylvania
+University of Pittsburgh
+University of Rhode Island
+University of Rochester
+University of San Diego
+University of San Francisco
+University of South Carolina
+University of South Dakota
+University of South Florida
+University of Southern California
+University of St. Thomas
+University of Tennessee
+University of Texas
+University of Tulsa
+University of Utah
+University of Vermont
+University of Virginia
+University of Washington
+University of Wisconsin
+University of Wyoming
+University of the Pacific
+University of the Sciences
+Vanderbilt University
+Vassar College
+Villanova University
+Virginia Commonwealth University
+Virginia Tech
+Wake Forest University
+Washington State University
+Washington University in St. Louis
+Wellesley College
+West Virginia University
+Western Michigan University
+Widener University
+Worcester Polytechnic Institute
+Yale University
+Yeshiva University
