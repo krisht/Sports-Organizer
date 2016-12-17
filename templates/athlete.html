@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='row'>
+    <div class='span8 offset2'>
+        <div class='page-header'>
+            <h1>{{ athlete[0] }}</h1>
+            <img src={{picture}} style="width:250px">
+        </div>
+        <h3>Height: {{ (athlete[1]//12)|int }}'{{ (athlete[1]%12)|int }}"</h3>
+        <h3>Weight: {{ athlete[2] }} lbs</h3>
+
+        <h4>Plays for:</h4>
+        <ul class="unstyled">
+            {% for team in teams %}
+            <li><h2><a href='{{ url_for('team_info', tid=team[0]) }}'>{{ team[1] }}</a></h2></li>
+	    <h3>Recent Workouts</h3>
+            <table class='table table-striped'>
+                <tbody>
+                {% for workout in workouts %}
+                <tr>
+                    <th>
+                        <a href='{{ url_for('athlete_performance', uid=uid, wid=workout[0]) }}'>
+                            {{ workout[1].strftime('%D') }}
+                        </a> 
+                    </th>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+	    {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}
