@@ -1,5 +1,5 @@
 from __future__ import print_function;
-sqlFile = open('sports.sql', 'a+'); 
+sqlFile = open('teams.sql', 'a+'); 
 
 def mascot(name, mascot):
     print('INSERT INTO TeamMascot VALUES ("%s", "%s");' % (name, mascot), file=sqlFile); 

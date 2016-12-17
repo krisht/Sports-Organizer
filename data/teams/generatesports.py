@@ -13,6 +13,8 @@ for s in sport:
 	for season in seasons:
 		sports.append((s, season)); 
 
+
+
 position = ["Forward", "Center", "Back", "Left", "Right", "Goalie"]
 
 days = map(str, range(1,29))
@@ -30,14 +32,14 @@ def numbers(list):
 	ii = 1; 
 	jj = 0; 
 	while True:
-		while j < len(list):
+		while jj < len(list):
 			jj+=1; 
 			yield ii; 
 		ii+=1; 
 		jj= 0; 
 
 
-def insert_sports(name, season):
+def insert_sports((name, season)):
     print('INSERT INTO SportSeason VALUES ("%s", "%s");' % (name, season), file=sqlFile); 
     print('INSERT INTO Sport(name) VALUES ("%s");' % (name) , file=sqlFile); 
 
