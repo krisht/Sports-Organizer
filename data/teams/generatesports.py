@@ -3,16 +3,18 @@ from random import choice
 
 sqlFile = open('sports.sql', 'a+'); 
 
-sport =['Football', 'Basketball', 'Baseball', 'Soccer', 'Water Polo', 'Track', 'Cross Counry', 'Swimming', 'Rugby', 'Tennis']; 
-
-seasons = ['Fall', 'Winter', 'Spring' , 'Summer']; 
-
-sports = []
-
-for s in sport:
-	for season in seasons:
-		sports.append((s, season)); 
-
+sports = [
+("Football", "Fall"),
+("Basketball", "Winter"),
+("Baseball", "Spring"),
+("Soccer", "Fall"),
+("Water Polo", "Fall"),
+("Track", "Spring"),
+("Cross Country", "Fall"),
+("Swimming", "Winter"),
+("Rugby", "Spring"),
+("Tennis", "Summer")
+]
 
 
 position = ["Forward", "Center", "Back", "Left", "Right", "Goalie"]
