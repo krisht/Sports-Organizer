@@ -8,6 +8,8 @@ from functools import wraps
 
 from datetime import datetime
 
+import sys
+
 import os
 
 UPLOAD_FOLDER = './static'
@@ -469,6 +471,12 @@ def teardown_request(exception):
 	g.db.close()
 
 
-if __name__ == '__main__':
-	app.run()
-
+if len(sys.argv)<=1: 
+	print("Database argument required!"); 
+else: 
+ 	if sys.argv[1] == 'big':
+ 		app.config['DB_NAME'] = 'MyCoachDatabaseBig'; 
+ 		app.run(); 
+ 	else:
+ 		app.config['DB_NAME'] = 'MyCoachDatabaseSmall'; 
+ 		app.run(); 
