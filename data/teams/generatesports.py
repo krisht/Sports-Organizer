@@ -1,7 +1,7 @@
 from __future__ import print_function;
 from random import choice
 
-sqlFile = open('sports.sql', 'a+'); 
+sqlFile = open('sports.sql', 'w'); 
 
 sports = [
 ("Football", "Fall"),
@@ -67,7 +67,7 @@ pos = circular(position);
 for uid in range(101, 5001):
 	insert_member_of(uid, tid.next(), team_numbers.next(), pos.next())
 
-sid = circular(range(1,101)); 
+sid = circular(range(1,10)); 
 cs = circular(range(1,101)); 
 for tid in range(1, 351):
 	insert_plays(tid, sid.next()); 
