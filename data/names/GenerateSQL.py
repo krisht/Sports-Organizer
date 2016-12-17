@@ -1,5 +1,6 @@
 from __future__ import print_function;
 import hashlib, uuid; 
+from werkzeug.security import generate_password_hash as pw_hash
 
 salt = uuid.uuid4().hex;
 
@@ -20,7 +21,7 @@ with open('people.txt') as f:
 		while True:
 			name = f.next().strip(); 
 			email = f.next().strip(); 
-			pw = hashlib.sha512(f.next().strip() + salt).hexdigest(); # Hash password later
+			pw = pw_hash(f.next().strip()) # Hash password later
 			role = f.next().strip(); 
 			user(uid, name, email, pw); 
 			if role == 'Coach': 

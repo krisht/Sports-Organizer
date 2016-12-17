@@ -55,7 +55,7 @@ def performance(user, wid, reps, ex):
 
 lazy=[]
 wid=0
-for tid in range(35):
+for tid in range(350):
 	i = tid % 10
 	for j in range(4):
 		wid+=1
@@ -63,8 +63,8 @@ for tid in range(35):
 		f.write(inserts4("Workout", wid, tid+1, date, i+1))
 		f.write("\n")
 		for k in range(14):
-			uid = tid+11 + 35*k
-			if (randint(1,100) <= 90) and (uid<=500):
+			uid = tid+101 + 350*k
+			if (randint(1,100) <= 90) and (uid<=5000):
 				f.write(inserts3("does", wid, uid, date))
 				f.write("\n")
 			else:
@@ -75,7 +75,8 @@ for tid in range(35):
 			f.write(inserts4("consists_of", wid, es[l], randint(2,4), r))
 			f.write("\n")
 			for m in range(14):
-				uid =  tid+11 + 35*m
+				uid =  tid+101 + 350*m
 				if (not (uid in lazy)):
 					f.write(performance(uid, wid, r, es[l]))
 					f.write("\n")
+		
