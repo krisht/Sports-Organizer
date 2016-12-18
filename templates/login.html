@@ -21,7 +21,7 @@
 <fieldset>
     <legend>Register</legend>
     <input type="text" name="name" class="input-large" placeholder="Name"><br />
-    <input type=file name=file><br/>
+    <input type="file" name="file" class = "input-large" placeholder="Picture"><br/>
     <input type="text" name="email" class="input-large" placeholder="Email Address"><br />
     <input type="password" name="password" class="input-large" placeholder="Password"><br />
 
@@ -43,7 +43,16 @@
         {% for team in teams %}
         <option value="{{ team[0] }}">{{ team[1] }} - {{ team[2] }}</option>
         {% endfor %}
+        <option value="other">Other</option>
     </select>
+
+    <div class='newteams'>
+        <input class='newteams' type="text" name="school" class="input-medium" placeholder="School"><br />
+        <input class='newteams' type="text" name="sport" class="input-medium" placeholder="Sport"><br />
+        <input class='newteams' type="text" name="season" class="input-medium" placeholder="Season"><br />
+        <input class='newteams' type="text" name="city" class="input-medium" placeholder="Hometown"><br />
+        <input class='newteams' type="text" name="mascot" class="input-medium" placeholder="Mascot"><br />
+    </div>
 
     <button type="submit" class="btn">Register</button>
 </fieldset>
@@ -69,6 +78,19 @@
             }
         });
 
+
+        $('.newteams').hide(); 
+
+        $('#teams').change(function(){
+            if ($(this).find('option:selected').attr('value') === 'other') {
+                $('.newteams').show();
+            }
+            else {
+                $('.newteams').hide();
+            }
+        });
+
     });
+
 </script>
 {% endblock %}

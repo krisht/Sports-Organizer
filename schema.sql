@@ -1,10 +1,10 @@
-DROP DATABASE IF EXISTS MyCoachDatabase;
+DROP DATABASE IF EXISTS MyCoachDatabaseBig;
 
-CREATE DATABASE MyCoachDatabase;
+CREATE DATABASE MyCoachDatabaseBig;
 
-GRANT ALL PRIVILEGES ON MyCoachDatabase.* to admin@localhost IDENTIFIED BY 'admin';
+GRANT ALL PRIVILEGES ON MyCoachDatabaseBig.* to admin@localhost IDENTIFIED BY 'admin';
 
-USE MyCoachDatabase;
+USE MyCoachDatabaseBig;
 
 CREATE TABLE `User` (
     uid INTEGER AUTO_INCREMENT NOT NULL,

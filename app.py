@@ -12,8 +12,10 @@ import sys
 
 import os
 
+import os.path
+
 UPLOAD_FOLDER = './static'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set(['jpg'])
 
 
 # setup our Flask application
@@ -51,6 +53,7 @@ def index():
                         WHERE T.tid = P.tid AND P.sid = S.sid
                         ORDER BY T.school""")
 		teams = cursor.fetchall()
+
 		return render_template('login.html', teams=teams)
 
 	uid = session['user_id']
@@ -78,6 +81,10 @@ def coach_info(uid):
 	user = cursor.fetchone()[0]; 
 
 	path = '/static/default.jpg';
+
+	path = '/static/default.jpg';
+	if os.path.isfile('./static/%s.jpg'%uid):
+		path = '/static/%s.jpg'%uid;
 
 	# if we are requesting our own page, then we want to show them the salary
 	if uid == session['user_id']:
@@ -307,7 +314,9 @@ def athlete_info(uid):
                         WHERE M.uid=%s AND M.tid=T.tid""", (uid,))
 	teams = cursor.fetchall()
 
-	path = '/static/default.jpg'; 
+	path = '/static/default.jpg';
+	if os.path.isfile('./static/%s.jpg'%uid):
+		path = '/static/%s.jpg'%uid;
 
 	workouts = []
 	# get recent workouts
@@ -378,7 +387,7 @@ def login():
 
 
 
-app.config['UPLOAD_FOLDER'] = '/static/'
+app.config['UPLOAD_FOLDER'] = './static/'
 
 # Registers a user
 @app.route('/register', methods=['POST'])
@@ -389,7 +398,11 @@ def register():
 	email = request.form['email']
 	password = request.form['password']
 	user_type = request.form['type'].lower()
-	tid = int(request.form['team'])
+	tid = request.form['team'];
+	sport = ""; 
+	season =""; 
+	school=""; 
+
 	cursor = g.db.cursor()
 	# first check if user with email address already exists
 	cursor.execute('SELECT * FROM User WHERE email = %s', (email,))
@@ -401,6 +414,26 @@ def register():
 	uid = 0
 	# if the user is an athlete, then we insert them into the Athletes table
 	# and put them on a team, as well as insert them into the User table
+	
+	if tid == "other":
+		sport=request.form['sport']
+		season=request.form['season']
+		school=request.form['school']
+		city = rquest.form['city'];
+		mascot = request.form['mascot']; 
+		cursor.execute("INSERT INTO SportSeason(name, season) VALUES (%s, %s)", (sport, season));
+		cursor.execute("INSERT INTO Sport(name) VALUES (%s)", (sport));
+		cursor.execute("INSERT INTO Team(school, hometown) VALUES (%s)", (school, city));
+		cursor.execute("INSERT INTO TeamMascot(school, mascot) VALUES (%s, %s)",(school, mascot)); 
+		cursor.execute("SELECT T.tid FROM Team T WHERE T.school=%s AND T.hometown=%s ORDER BY T.tid DESC", (school, city));
+		tid = cursor.fetchone()[0]; 
+		cursor.execute("SELECT S.sid FROM Sport S WHERE S.name=%s", (sport));
+		sid = cursor.fetchone()[0]; 
+		cursor.execute("INSERT INTO plays(sid, tid) VALUES (%s, %s)", (sid, tid)); 
+	else:
+		tid = int(request.form['team']);
+
+	
 	if user_type == 'athlete':
 		weight = float(request.form['weight'])
 		height = float(request.form['height'])
@@ -430,7 +463,7 @@ def register():
 
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename); 
-		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(uid) + ".jpg"))
 
 	# set the cookies
 	session['user_id'] = uid
