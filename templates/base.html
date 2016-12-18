@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{% block title %}Athletics Organizer{% endblock %}</title>
+<title>{% block title %}myCoach{% endblock %}</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="/static/bootstrap.min.js"></script>
 {% block script %}{% endblock %}
@@ -19,7 +19,7 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="{{ url_for('index') }}">Athletics Organizer</a>
+            <a class="brand" href="{{ url_for('index') }}">myCoach Organizer</a>
             <div class="nav-collapse">
                 <!--<ul class="nav">-->
                     <!--<li>-->
@@ -27,7 +27,8 @@
                 <!--</ul>-->
                 {% if session.get('user_id') %}
                 <p class="navbar-text pull-right">
-                Hi, {{ session.get('user_name') }}. <a href="{{ url_for('logout') }}">Logout</a></p>
+                Hi, {{ session.get('user_name') }}. <a href="{{ url_for('logout') }}">Logout</a>
+                </p>
                 {% endif %}
             </div><!--/.nav-collapse -->
         </div>

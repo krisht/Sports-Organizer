@@ -5,7 +5,7 @@
     <div class='span8 offset2'>
 {% include "flashes.html" %}
 <img src={{picture}} alt={{user}} style="width:250px">
-<<h3>Coach {{user}}</h3>
+<h3>Coach {{user}}</h3>
 {% if salary %}
 <h3>Salary: ${{ salary }}</h3>
 <h1>Your Teams</h1>
@@ -16,4 +16,22 @@
     <li><h2><a href='{{ url_for('team_info', tid=team[0]) }}'>{{ team[1] }}</a></h2></li>
     {% endfor %}
 </ul>
+
+        {% if current_coach %}
+        <h1>Recent Workouts  <a id='create' class='btn btn-success' href='{{ url_for('create_workout', tid=tid) }}'><i class="icon-plus-sign icon-white"></i> Create a workout</a></h1>
+            <table class='table table-striped'>
+                <tbody>
+                {% for workout in workouts %}
+                <tr>
+                    <th>
+                        <a href='{{ url_for('workout_info', tid=tid, wid=workout[0]) }}'>
+                            {{ workout[1].strftime('%D') }}
+                        </a> 
+                    </th>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
 {% endblock %}

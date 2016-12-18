@@ -86,7 +86,8 @@ def coach_info(uid):
 	if os.path.isfile('./static/%s.jpg'%uid):
 		path = '/static/%s.jpg'%uid;
 
-	# if we are requesting our own page, then we want to show them the salary
+	# if we are requesting our own page, then we want to show them the salary 
+	
 	if uid == session['user_id']:
 		cursor.execute('SELECT salary FROM Coach WHERE uid = %s', (uid,))
 		salary = cursor.fetchone()[0]
@@ -105,6 +106,10 @@ def coach_info(uid):
 # coach of this team, then displays the recent workouts and allows you to
 # create a new workout
 #Checked
+
+
+
+
 @app.route('/team/<int:tid>')
 @login_required
 def team_info(tid):
@@ -112,9 +117,10 @@ def team_info(tid):
 	# general team information
 	cursor.execute("""SELECT T.school, T.hometown, S.name
                       FROM Team T, Sport S, plays P
-                      WHERE T.tid = %s AND S.sid = P.sid  """,
+                      WHERE T.tid = %s AND P.tid = T.tid AND S.sid = P.sid  """,
 				   (tid,))
 	team = cursor.fetchone()
+	print team[2]; 
 	cursor.execute('SELECT mascot FROM TeamMascot WHERE school=%s',
 				   (team[0],))
 	mascot = cursor.fetchone()[0]
@@ -148,6 +154,20 @@ def team_info(tid):
 						   current_coach=current_coach,
 						   workouts=workouts, mascot=mascot,
 						   tid=tid)
+@app.route('/team/<int:tid>/workout/<int:wid>/delete')
+@login_required
+def delete_workout(tid, wid):
+	cursor = g.db.cursor();
+
+	cursor.execute('SELECT uid FROM coaches WHERE tid=%s AND uid=%s', (tid, session['user_id']))
+
+	if int(cursor.rowcount) == 0:
+		flash('You don\'t have permission to do that', 'error')
+		return redirect(url_for('team_info', tid=tid))
+
+	cursor.execute('DELETE FROM Workout WHERE wid = %s', (wid));
+
+	return render_template(url_for('team_info', tid=tid)) 
 
 
 # Allows a coach to create a workout for a given team.

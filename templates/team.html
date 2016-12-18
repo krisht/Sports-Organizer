@@ -32,20 +32,35 @@
         </table>
 
         {% if current_coach %}
-        <h1>Recent Workouts  <a id='create' class='btn btn-success' href='{{ url_for('create_workout', tid=tid) }}'><i class="icon-plus-sign icon-white"></i> Create a workout</a></h1>
-            <table class='table table-striped'>
-                <tbody>
+        <h1>Recent Workouts  
+            <a id='create' class='btn btn-success' href='{{ url_for('create_workout', tid=tid) }}'>
+
+                <i class="icon-plus-sign icon-white"></i> 
+
+
+                Create a workout
+            </a>
+
+        </h1>
+        <table class='table table-striped'>
+            <tbody>
                 {% for workout in workouts %}
                 <tr>
                     <th>
                         <a href='{{ url_for('workout_info', tid=tid, wid=workout[0]) }}'>
                             {{ workout[1].strftime('%D') }}
+
+                            <a id='create' class='btn btn-danger' href='{{ url_for('delete_workout', wid=workout[0], tid = tid) }}'>
+
+                                <i class="icon-minus-sign icon-white"></i>
+                            </a>
+
                         </a> 
                     </th>
                 </tr>
                 {% endfor %}
-                </tbody>
-            </table>
+            </tbody>
+        </table>
         {% endif %}
     </div>
 </div>
