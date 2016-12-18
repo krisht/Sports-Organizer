@@ -41,6 +41,53 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
+@app.route('/changecreds', methods=['POST'])
+def change_admin_credentials():
+	# Grab the information from the request body
+	name = request.form['name']
+	file = request.files['file']
+	email = request.form['email']
+	password = request.form['password']
+
+	cursor = g.db.cursor()
+	# first check if user with email address already exists
+	cursor.execute('SELECT * FROM User WHERE email = %s', (email,))
+	# if any user was found, then cannot register with that email
+	if int(cursor.rowcount) != 0:
+		flash('That email address is already taken.', 'error')
+		return redirect(url_for('index'))
+
+	pw = generate_password_hash(password)
+
+	cursor.execute('UPDATE User SET name = %s, email=%s, password=%s', (name, email, pw))
+
+	return redirect(url_for('index'))
+
+@app.route('/changecreds', methods=['POST'])
+def change_coach_credentials():
+	# Grab the information from the request body
+	name = request.form['name']
+	file = request.files['file']
+	email = request.form['email']
+	password = request.form['password']
+	salary = request.form['salary']; 
+	
+
+	cursor = g.db.cursor()
+	# first check if user with email address already exists
+	cursor.execute('SELECT * FROM User WHERE email = %s', (email,))
+	# if any user was found, then cannot register with that email
+	if int(cursor.rowcount) != 0:
+		flash('That email address is already taken.', 'error')
+		return redirect(url_for('index'))
+
+	pw = generate_password_hash(password)
+
+	cursor.execute('UPDATE User SET name = %s, email=%s, password=%s', (name, email, pw))
+
+	return redirect(url_for('index'))
+
+
 @app.route('/statistics')
 def get_statistics():
 	cursor = g.db.cursor(); 
