@@ -459,31 +459,30 @@ def login():
 	cursor = g.db.cursor()
 	cursor.execute('SELECT uid, name, password FROM User WHERE email = %s',
 				   (email,))
-	# if one user was found, then this is that user
-	if int(cursor.rowcount) == 1:
-		user = cursor.fetchone()
-		# we check the password against the hash stored in the db
+
+	if  int(cursor.rowcount) == 1:
+		user = cursor.fetchone(); 
+
 		if check_password_hash(user[2], password):
-			# fetch uid
 			session['user_id'] = user[0]
 			session['user_name'] = user[1]
 
-			cursor.execute('SELECT isAdmin FROM User WHERE uid=%s', (user[0])); 
+			cursor.execute('SELECT isAdmin FROM User U WHERE U.uid = %s AND U.isAdmin = TRUE', (user[0]))
 
-			if int(cursor.rowcount) != 0:
+			if int(cursor.rowcount) == 1:
 				session['user_type'] = 'admin';
 				return redirect(url_for('index')); 
-			else:
-				cursor.execute('SELECT salary FROM Coach WHERE uid = %s', (user[0]))
-				# if not a coach, then we have an athlete
+			else: 
+				cursor.execute('SELECT salary FROM Coach C WHERE C.uid = %s', (user[0]))
 				if int(cursor.rowcount == 0):
 					session['user_type'] = 'athlete'
-				else:
+				else: 
 					session['user_type'] = 'coach'
-				return redirect(url_for('index'))
-	# either 0 or more than one (which really shouldn't happen)
-	flash('Your email and password wasn\'t found.', 'error')
-	return redirect(url_for('index'))
+		else: 
+			flash('Your password is incorrect.', 'error')
+	else: 
+		flash('Your username wasn\'t found!', 'error'); 
+	return redirect(url_for('index'));
 
 
 
