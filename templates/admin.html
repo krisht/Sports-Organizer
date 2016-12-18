@@ -2,10 +2,88 @@
 
 {% block content %}
 <div class='row'>
-    <div class='span8 offset2'>
-{% include "flashes.html" %}
-<img src={{picture}} alt={{user}} style="width:250px">
-<h3>Admin {{user}}</h3>
+	<div class='span8 offset2'>
+		{% include "flashes.html" %}
+		<img src={{picture}} alt={{user}} style="width:250px">
+		<h3>Admin {{user}}</h3>
+
+		<div class="panel-group" id="accordion">
+			<!-- First Panel -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2 class="panel-title"
+					data-toggle="collapse" 
+					data-target="#collapseOne">
+					Coach Information
+				</h2>
+			</div>
+			<div id="collapseOne" class="panel-collapse collapse">
+				<table class='panel-body table table-striped '>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Email</th> 
+							<th>Salary</th>
+							<th>Sport</th>
+							<th>School</th>
+							<th>Coached Since</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in coaches %}
+						<tr>
+							<td><a href='{{ url_for('coach_info', uid=item[6]) }}'>{{ item[0] }}</td>
+							<td>{{ item[1] }}</td>
+							<td>{{ item[2] }}</td>
+							<td>{{ item[3] }}</td>
+							<td>{{ item[4] }}</td>
+							<td>{{ item[5] }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- Second Panel -->
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title" 
+				data-toggle="collapse" 
+				data-target="#collapseTwo">
+				Athletes
+			</h2>
+		</div>
+		<div id="collapseTwo" class="panel-collapse collapse">
+			<table class='table table-striped '>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Sport</th>
+						<th>Position</th>
+						<th>School</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in athletes %}
+					<tr>
+						<td><a href='{{ url_for('athlete_info', uid=item[5]) }}'>{{ item[0] }}</td>
+						<td>{{ item[1] }}</td>
+						<td>{{ item[2] }}</td>
+						<td>{{ item[3] }}</td>
+						<td>{{ item[4] }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+</div>
+</div>
+
 
 {% endblock %}
 

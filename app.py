@@ -53,8 +53,6 @@ def get_statistics():
 	cursor.execute("SELECT U.name, E.name, MAX(P.max_weight) FROM Exercise E, performance P, User U WHERE P.eid = E.eid AND P.uid=U.uid GROUP BY E.name")
 	maxExerciseWeights = cursor.fetchall(); 
 
-	print "FUCK THIS SHIT", avgExercises; 
-
 	return render_template('statistics.html', avgExercises = avgExercises, maxExercises = maxExercises,avgExerciseWeights = avgExerciseWeights, maxExerciseWeights = maxExerciseWeights); 
 
 # If user is not logged in, prompts user to sign in
@@ -95,14 +93,13 @@ def admin_info(uid):
 
 	user = cursor.fetchone()[0];
 
-	cursor.execute("SELECT U.name, U.email, C.salary FROM User U, Coach C WHERE U.uid = C.uid");
+	cursor.execute("SELECT U.name, U.email, C.salary, T.school, S.name, M.since, U.uid FROM User U, Coach C, coaches M, Team T, plays P, Sport S WHERE U.uid = C.uid AND M.uid = C.uid AND M.tid = T.tid AND T.tid = P.tid AND P.sid = S.sid");
 
 	coaches = cursor.fetchall(); 
 
-	cursor.execute("SELECT U.name, U.email, S.name, M.position, T.school FROM User U, Athlete A, member_of M, Team T, Sport S WHERE U.uid = A.uid"); 
+	print cursor.execute("SELECT U.name, U.email, S.name, M.position, T.school, U.uid FROM User U, Athlete A, member_of M, Team T, plays P, Sport S WHERE U.uid = A.uid AND M.uid = A.uid AND M.tid = T.tid AND P.tid = T.tid AND P.sid = S.sid"); 
 
 	athletes = cursor.fetchall(); 
-
 
 	path = '/static/default.jpg';
 
@@ -111,7 +108,7 @@ def admin_info(uid):
 		path = '/static/%s.jpg'%uid;
 
 
-	return render_template('admin.html', uid=uid, picture = path, user = user)
+	return render_template('admin.html', uid=uid, picture = path, user = user, coaches = coaches, athletes  = athletes)
 
 
 
@@ -142,7 +139,7 @@ def coach_info(uid):
 
 	# if we are requesting our own page, then we want to show them the salary 
 	
-	if uid == session['user_id'] or session['user_type']=='admin':
+	if uid == session['user_id'] or session['user_type'] == 'admin':
 		cursor.execute('SELECT salary FROM Coach WHERE uid = %s', (uid,))
 		salary = cursor.fetchone()[0]
 	# otherwise, that is privileged information
@@ -154,11 +151,12 @@ def coach_info(uid):
 
 @app.route('/team<int:tid>/athlete/<int:uid>/edit')
 @login_required
+#Fix this
 def edit_athlete(tid, auid, num, pos):
 	cursor = g.db.cursor(); 
 	cursor.execute('SELECT uid FROM coaches WHERE tid=%s AND uid=%s', (tid, session['user_id']))
 
-	if int(cursor.rowcount) == 0 and not session['user_type'] == 'admin':
+	if int(cursor.rowcount) == 0: 
 		flash('You don\'t have permission to do that', 'error')
 		return redirect(url_for('team_info', tid=tid));
 
@@ -207,10 +205,7 @@ def team_info(tid):
 	coaches = map(lambda (x, ): x, list(cursor.fetchall()))
 
 	# If multiple coaches, we want them all to be able to see the workouts
-	current_coach = True if session['user_id'] in coaches else False
-
-	if session['user_type'] == 'admin':
-		current_coach = True; 
+	current_coach = True if ((session['user_id'] in coaches) or (session['user_type'] == 'admin')) else False
 
 	cursor.execute("""SELECT wid, date_assigned
                       FROM Workout
@@ -231,9 +226,10 @@ def team_info(tid):
 def delete_workout(tid, wid):
 	cursor = g.db.cursor();
 
+
 	cursor.execute('SELECT uid FROM coaches WHERE tid=%s AND uid=%s', (tid, session['user_id']))
 
-	if int(cursor.rowcount) == 0 and not session['user_type'] == 'admin':
+	if ((int(cursor.rowcount) == 0) and (session['user_type'] != 'admin')):
 		flash('You don\'t have permission to do that', 'error')
 		return redirect(url_for('team_info', tid=tid))
 
@@ -241,7 +237,7 @@ def delete_workout(tid, wid):
 
 	g.db.commit();
 
-	return redirect(url_for('team_info'), tid=tid)
+	return redirect(url_for('team_info', tid=tid))
 
 
 # Allows a coach to create a workout for a given team.
@@ -253,7 +249,7 @@ def create_workout(tid):
 				   (tid, session['user_id']))
 	# if the coach does not coach this team, we do not want them to be
 	# able to create workouts for them, so we redirect.
-	if int(cursor.rowcount) == 0 and not session['user_type'] == 'admin':
+	if ((int(cursor.rowcount) == 0)):
 		flash('You don\'t have permission to do that', 'error')
 		return redirect(url_for('team_info', tid=tid))
 
@@ -274,7 +270,7 @@ def submit_workout(tid):
 				   (tid, session['user_id']))
 	# if the coach does not coach this team, we do not want them to be
 	# able to create workouts for them, so we redirect.
-	if int(cursor.rowcount) == 0 and not session['user_type'] == 'admin':
+	if ((int(cursor.rowcount) == 0) and (session['user_type'] != 'admin')):
 		return jsonify(error='You don\'t have permission to create a workout for this team')
 
 	# print request.form['workout[0][exercise]']
@@ -356,7 +352,9 @@ def athlete_performance(uid, wid):
 	user = cursor.fetchone()
 	# if it's the current user, we make note of that. This variable is used
 	# in the template to decide whether to allow input
-	if user[0] == session['user_id'] or session['user_type'] == 'admin':
+	# 
+	
+	if ((user[0] == session['user_id'])):
 		is_self = True
 	else:
 		is_self = False
