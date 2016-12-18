@@ -419,12 +419,12 @@ def register():
 		sport=request.form['sport']
 		season=request.form['season']
 		school=request.form['school']
-		city = rquest.form['city'];
+		city = request.form['city'];
 		mascot = request.form['mascot']; 
 		cursor.execute("INSERT INTO SportSeason(name, season) VALUES (%s, %s)", (sport, season));
 		cursor.execute("INSERT INTO Sport(name) VALUES (%s)", (sport));
-		cursor.execute("INSERT INTO Team(school, hometown) VALUES (%s)", (school, city));
 		cursor.execute("INSERT INTO TeamMascot(school, mascot) VALUES (%s, %s)",(school, mascot)); 
+		cursor.execute("INSERT INTO Team(school, hometown) VALUES (%s, %s)", (school, city));
 		cursor.execute("SELECT T.tid FROM Team T WHERE T.school=%s AND T.hometown=%s ORDER BY T.tid DESC", (school, city));
 		tid = cursor.fetchone()[0]; 
 		cursor.execute("SELECT S.sid FROM Sport S WHERE S.name=%s", (sport));
