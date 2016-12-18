@@ -26,6 +26,14 @@
                     <td>{{ player[1] }}</td>
                     <td><a href='{{ url_for('athlete_info', uid=player[0]) }}'>{{ player[2] }}</a></td>
                     <td>{{ player[3] }}</td>
+                    {% if current_coach %}
+                    <td>
+                        <a id='editor' class='btn btn-warning' href='#'>
+
+                            <i class="icon-edit icon-white"></i>
+                        </a>
+                    </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
@@ -33,7 +41,7 @@
 
         {% if current_coach %}
         <h1>Recent Workouts  
-            <a id='create' class='btn btn-success' href='{{ url_for('create_workout', tid=tid) }}'>
+            <a id='create' class='btn btn-success' href='{{ url_for('create_workout', tid=tid ) }}'>
 
                 <i class="icon-plus-sign icon-white"></i> 
 
@@ -65,4 +73,3 @@
     </div>
 </div>
 {% endblock %}
-

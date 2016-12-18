@@ -98,6 +98,24 @@ def coach_info(uid):
 	return render_template('coach.html', salary=salary, teams=teams, uid=uid, picture = path, user = user)
 
 
+@app.route('/team<int:tid>/athlete/<int:uid>/edit')
+@login_required
+def edit_athlete(tid, auid, num, pos):
+	cursor = g.db.cursor(); 
+	cursor.execute('SELECT uid FROM coaches WHERE tid=%s AND uid=%s', (tid, session['user_id']))
+
+	if int(cursor.rowcount) == 0:
+		flash('You don\'t have permission to do that', 'error')
+		return redirect(url_for('team_info', tid=tid));
+
+	cursor.execute('UPDATE member_of SET number=%s, position=%s WHERE uid=%s', (num, pos, auid))
+	g.db.commit(); 
+
+	return redirect(url_for('team_info'), tid = tid); 
+
+
+
+
 ###################
 # Views for Teams #
 ###################
@@ -106,9 +124,6 @@ def coach_info(uid):
 # coach of this team, then displays the recent workouts and allows you to
 # create a new workout
 #Checked
-
-
-
 
 @app.route('/team/<int:tid>')
 @login_required
@@ -167,7 +182,9 @@ def delete_workout(tid, wid):
 
 	cursor.execute('DELETE FROM Workout WHERE wid = %s', (wid));
 
-	return render_template(url_for('team_info', tid=tid)) 
+	g.db.commit();
+
+	return redirect(url_for('team_info'), tid=tid)
 
 
 # Allows a coach to create a workout for a given team.
