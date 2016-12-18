@@ -6,8 +6,8 @@ salt = uuid.uuid4().hex;
 
 sqlFile = open('people.sql', 'w'); 
 
-def user(id, name, email, password):
-	print('INSERT INTO User VALUES (%s, "%s", "%s", "%s");' % (id, name, email, password), file = sqlFile); 
+def user(id, name, email, password, admin):
+	print('INSERT INTO User(uid, name, email password, isAdmin) VALUES (%s, "%s", "%s", "%s");' % (id, name, email, password, admin), file = sqlFile); 
 
 def coach(uid, salary):
 	print('INSERT INTO Coach VALUES (%s, %s);' % (uid, salary), file = sqlFile); 

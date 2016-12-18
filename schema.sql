@@ -11,6 +11,7 @@ CREATE TABLE `User` (
     name VARCHAR(128),
     email VARCHAR(128) UNIQUE,
     password VARCHAR(54),
+    isAdmin BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (uid)
 );
 
@@ -67,9 +68,9 @@ CREATE TABLE `Workout` (
     uid INTEGER NOT NULL,
     PRIMARY KEY (wid),
     FOREIGN KEY (tid) REFERENCES Team (tid)
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     FOREIGN KEY (uid) REFERENCES Coach (uid)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 );
 
 CREATE TABLE `ExerciseMuscles` (
@@ -83,7 +84,7 @@ CREATE TABLE `Exercise` (
     name VARCHAR(128) UNIQUE NOT NULL,
     PRIMARY KEY (eid),
     FOREIGN KEY (name) REFERENCES ExerciseMuscles (name)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 );
 
 CREATE TABLE `coaches` (
@@ -92,9 +93,9 @@ CREATE TABLE `coaches` (
     since DATE,
     PRIMARY KEY (uid, tid),
     FOREIGN KEY (uid) REFERENCES Coach (uid)
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     FOREIGN KEY (tid) REFERENCES Team (tid)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 );
 
 CREATE TABLE `plays` (
@@ -102,9 +103,9 @@ CREATE TABLE `plays` (
     tid INTEGER NOT NULL,
     PRIMARY KEY (sid, tid),
     FOREIGN KEY (sid) REFERENCES Sport (sid)
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     FOREIGN KEY (tid) REFERENCES Team (tid)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 );
 
 CREATE TABLE `member_of` (
@@ -114,9 +115,9 @@ CREATE TABLE `member_of` (
     number INTEGER,
     PRIMARY KEY (uid, tid),
     FOREIGN KEY (uid) REFERENCES Athlete (uid)
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     FOREIGN KEY (tid) REFERENCES Team (tid)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 );
 
 CREATE TABLE `consists_of` (
@@ -126,9 +127,9 @@ CREATE TABLE `consists_of` (
     reps INTEGER,
     PRIMARY KEY (wid, eid),
     FOREIGN KEY (wid) REFERENCES Workout (wid)
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     FOREIGN KEY (eid) REFERENCES Exercise (eid)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 ); 
 
 CREATE TABLE `does` (
@@ -137,9 +138,9 @@ CREATE TABLE `does` (
     date_done DATETIME,
     PRIMARY KEY (wid, uid),
     FOREIGN KEY (wid) REFERENCES Workout (wid)
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     FOREIGN KEY (uid) REFERENCES Athlete (uid)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 ); 
 
 
@@ -151,11 +152,11 @@ CREATE TABLE `performance` (
     max_weight DOUBLE,
     PRIMARY KEY (eid, uid, wid),
     FOREIGN KEY (wid) REFERENCES Workout (wid)
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     FOREIGN KEY (eid) REFERENCES Exercise (eid)
-        ON DELETE NO ACTION,
+        ON DELETE CASCADE,
     FOREIGN KEY (uid) REFERENCES Athlete (uid)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
 ); 
 
 DELIMITER |
@@ -178,8 +179,7 @@ BEGIN
         AND M.uid IN (SELECT D.uid FROM does D WHERE D.wid=wid)
     );
 END |
-
-DELIMITER ;
+DELIMITER ; 
 
 DELIMITER $$
 CREATE FUNCTION `NextTeamNumber` (tid INTEGER) RETURNS INTEGER
@@ -188,5 +188,4 @@ BEGIN
     SELECT MAX(number) INTO last FROM member_of WHERE tid=tid;
     RETURN last+1;
 END $$
-
 DELIMITER ; 
