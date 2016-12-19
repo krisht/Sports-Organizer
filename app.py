@@ -54,12 +54,12 @@ def change_admin_credentials():
 
 	uid = session['user_id']; 
 
-	cursor.execute("SELECT isAdmin FROM User WHERE uid = %s",  (uid));
+	cursor.execute("SELECT isAdmin FROM User WHERE uid = %s", (uid,) );
 
 	if((int(cursor.rowcount) != 1) or (cursor.fetchone()[0] == False)): 
 		flash('You cannot change an admin\'s credentials!', 'error');
 
-	cursor.execute("SELECT U.email FROM User U WHERE U.email = %s AND U.uid <> %s", (email, uid)); 
+	cursor.execute("SELECT U.email FROM User U WHERE U.email=%s AND U.uid<>%s", (email, uid,));
 
 	if((int(cursor.rowcount) > 0)):
 		flash("That email is already taken!", "error");
@@ -69,7 +69,7 @@ def change_admin_credentials():
 
 	pw = generate_password_hash(password); 
 
-	cursor.execute("UPDATE User SET name = %s, email=%s, password=%s WHERE uid = %s", (name, email, pw, uid)); 
+	cursor.execute("UPDATE User SET name = %s, email=%s, password=%s WHERE uid = %s",  (name, email, pw, uid,)); 
 
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename); 
@@ -92,15 +92,15 @@ def change_coach_credentials(uid):
 	salary = request.form['salary']; 
 
 	if uid==session['user_id'] or session['user_type'] == 'admin':
-		cursor.execute("""SELECT U.email FROM User U WHERE U.email = %s AND U.uid <> %s"""(email, uid)); 
+		cursor.execute("""SELECT U.email FROM User U WHERE U.email = %s AND U.uid <> %s""", (email, uid, )); 
 		if ((int(cursor.rowcount) > 0)):
 			flash("That email is already taken!", "error"); 
 			return redirect(url_for('index')); 
 
-		pw = generate_password_hash(password); 
+		pw = password; 
 
-		cursor.execute('UPDATE User SET name = %s, email=%s, password=%s WHERE uid = %s', (name, email, pw, uid ))
-		cursor.execute('UPDATE Coach SET salary=%s WHERE uid = %s', (uid))
+		cursor.execute('UPDATE User SET name = %s, email=%s, password=%s WHERE uid = %s', (name, email, pw, uid,))
+		cursor.execute('UPDATE Coach SET salary=%s WHERE uid = %s', (uid,))
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename); 
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(session['user_id']) + ".jpg"))
@@ -168,8 +168,6 @@ def admin_info(uid):
 
 	coaches = cursor.fetchall(); 
 
-	print cursor.execute("SELECT U.name, U.email, S.name, M.position, T.school, U.uid FROM User U, Athlete A, member_of M, Team T, plays P, Sport S WHERE U.uid = A.uid AND M.uid = A.uid AND M.tid = T.tid AND P.tid = T.tid AND P.sid = S.sid"); 
-
 	athletes = cursor.fetchall(); 
 
 	path = '/static/default.jpg';
@@ -195,7 +193,7 @@ def coach_info(uid):
 
 	cursor = g.db.cursor()
 
-	cursor.execute("""SELECT * FROM Coach C WHERE C.uid = %s""", (uid)); 
+	cursor.execute("""SELECT * FROM Coach C WHERE C.uid = %s""", (uid,)); 
 
 	if int(cursor.rowcount) == 0: 
 		return redirect(url_for('index'));  # Show page not found
@@ -230,21 +228,22 @@ def coach_info(uid):
 	return render_template('coach.html', salary=salary, teams=teams, uid=uid, picture = path, user = user, current_coach= current_coach); 
 
 
-@app.route('/team<int:tid>/athlete/<int:uid>/edit')
+@app.route('/team/<int:tid>/athlete/<int:auid>/<int:num>/<pos>/edit')
 @login_required
 #Fix this
 def edit_athlete(tid, auid, num, pos):
+	print("TTTTTTTTTTTTIIIIIIIIIIIIIDDDDDDDDDD", tid); 
 	cursor = g.db.cursor(); 
-	cursor.execute('SELECT uid FROM coaches WHERE tid=%s AND uid=%s', (tid, session['user_id']))
+	cursor.execute('SELECT uid FROM coaches WHERE tid=%s AND uid=%s', (tid, session['user_id'], ))
 
 	if int(cursor.rowcount) == 0: 
 		flash('You don\'t have permission to do that', 'error')
 		return redirect(url_for('team_info', tid=tid));
 
-	cursor.execute('UPDATE member_of SET number=%s, position=%s WHERE uid=%s', (num, pos, auid))
+	cursor.execute('UPDATE member_of SET number=%s, position=%s WHERE uid=%s', (num, pos, auid,))
 	g.db.commit(); 
 
-	return redirect(url_for('team_info'), tid = tid); 
+	return redirect(url_for('team_info', tid = tid)); 
 
 
 
@@ -265,12 +264,9 @@ def team_info(tid):
 	# general team information
 	cursor.execute("""SELECT T.school, T.hometown, S.name
                       FROM Team T, Sport S, plays P
-                      WHERE T.tid = %s AND P.tid = T.tid AND S.sid = P.sid  """,
-				   (tid,))
+                      WHERE T.tid = %s AND P.tid = T.tid AND S.sid = P.sid  """, (tid, ))
 	team = cursor.fetchone()
-	print team[2]; 
-	cursor.execute('SELECT mascot FROM TeamMascot WHERE school=%s',
-				   (team[0],))
+	cursor.execute('SELECT mascot FROM TeamMascot WHERE school=%s', (team[0],)) 
 	mascot = cursor.fetchone()[0]
 
 	# get members of the team
@@ -280,7 +276,7 @@ def team_info(tid):
                       ORDER BY M.number""", (tid,))
 	members = cursor.fetchall()
 
-	cursor.execute('SELECT uid FROM coaches WHERE tid = %s', (tid,))
+	cursor.execute('SELECT uid FROM coaches WHERE tid = %s', (tid, ))
 	# The cursor always returns tuples, so for a single value we just unpack
 	# it
 	coaches = map(lambda (x, ): x, list(cursor.fetchall()))
@@ -292,8 +288,7 @@ def team_info(tid):
                       FROM Workout
                       WHERE tid=%s
                       ORDER BY date_assigned DESC
-                      LIMIT 5""",
-				   (tid))
+                      LIMIT 5""", (tid,))
 
 	workouts = cursor.fetchall()
 
@@ -308,13 +303,13 @@ def delete_workout(tid, wid):
 	cursor = g.db.cursor();
 
 
-	cursor.execute('SELECT uid FROM coaches WHERE tid=%s AND uid=%s', (tid, session['user_id']))
+	cursor.execute('SELECT uid FROM coaches WHERE tid=%s AND uid=%s',  (tid, session['user_id'],))
 
 	if ((int(cursor.rowcount) == 0) and (session['user_type'] != 'admin')):
 		flash('You don\'t have permission to do that', 'error')
 		return redirect(url_for('team_info', tid=tid))
 
-	cursor.execute('DELETE FROM Workout WHERE wid = %s', (wid));
+	cursor.execute('DELETE FROM Workout WHERE wid = %s', (wid,));
 
 	g.db.commit();
 
@@ -326,8 +321,7 @@ def delete_workout(tid, wid):
 @login_required
 def create_workout(tid):
 	cursor = g.db.cursor()
-	cursor.execute('SELECT uid FROM coaches WHERE tid = %s AND uid=%s',
-				   (tid, session['user_id']))
+	cursor.execute('SELECT uid FROM coaches WHERE tid = %s AND uid=%s',  (tid, session['user_id'],))
 	# if the coach does not coach this team, we do not want them to be
 	# able to create workouts for them, so we redirect.
 	if ((int(cursor.rowcount) == 0)):
@@ -336,7 +330,6 @@ def create_workout(tid):
 
 	cursor.execute('SELECT DISTINCT muscle_group FROM ExerciseMuscles')
 	muscles = cursor.fetchall()
-	print muscles
 
 	return render_template('create.html', muscles=muscles, tid=tid)
 
@@ -347,8 +340,7 @@ def create_workout(tid):
 @login_required
 def submit_workout(tid):
 	cursor = g.db.cursor()
-	cursor.execute('SELECT uid FROM coaches WHERE tid = %s AND uid=%s',
-				   (tid, session['user_id']))
+	cursor.execute('SELECT uid FROM coaches WHERE tid = %s AND uid=%s', (tid, session['user_id'],))
 	# if the coach does not coach this team, we do not want them to be
 	# able to create workouts for them, so we redirect.
 	if ((int(cursor.rowcount) == 0) and (session['user_type'] != 'admin')):
@@ -356,21 +348,19 @@ def submit_workout(tid):
 
 	# print request.form['workout[0][exercise]']
 
-	cursor.execute('INSERT INTO Workout(tid, date_assigned, uid) VALUES (%s, %s, %s)',
-				   (tid, datetime.now(), session['user_id']))
+	cursor.execute('INSERT INTO Workout(tid, date_assigned, uid) VALUES (%s, %s, %s)', (tid, datetime.now(), session['user_id'], ))
 
 	# since Workout ids are auto incremented, we get the wid for the one we just created
 	wid = cursor.lastrowid
 
 	# associate the exercises with the newly created workout
 	for i in range(len(request.form) / 3):
-		cursor.execute('SELECT eid FROM Exercise WHERE name=%s',
-					   (request.form['workout[%d][exercise]' % i]))
+		cursor.execute('SELECT eid FROM Exercise WHERE name=%s', ( request.form['workout[%d][exercise]' % i], ) )
 		eid = cursor.fetchone()[0]
 		sets = request.form['workout[%d][sets]' % i]
 		reps = request.form['workout[%d][reps]' % i]
 		cursor.execute('INSERT INTO consists_of VALUES (%s, %s, %s, %s)',
-					   (wid, eid, sets, reps))
+					   (wid, eid, sets, reps,))
 
 	# commit the transaction
 	g.db.commit()
@@ -413,8 +403,7 @@ def exercises():
 	if muscle == 'any':
 		cursor.execute('SELECT name FROM ExerciseMuscles')
 	else:
-		cursor.execute('SELECT name FROM ExerciseMuscles WHERE muscle_group=%s',
-					   (muscle,))
+		cursor.execute('SELECT name FROM ExerciseMuscles WHERE muscle_group=%s', (muscle,))
 	# unpack the tuple
 	e = map(lambda (a, ): a, list(cursor.fetchall()))
 	# jsonify serializes the list and returns it with a json mimetype
@@ -429,7 +418,7 @@ def exercises():
 def athlete_performance(uid, wid):
 	cursor = g.db.cursor()
 	# get general info about the user
-	cursor.execute('SELECT U.uid, U.name FROM User U WHERE U.uid = %s', (uid,))
+	cursor.execute('SELECT U.uid, U.name FROM User U WHERE U.uid = %s', (uid, ))
 	user = cursor.fetchone()
 	# if it's the current user, we make note of that. This variable is used
 	# in the template to decide whether to allow input
@@ -444,23 +433,20 @@ def athlete_performance(uid, wid):
 	date = cursor.fetchone()[0]
 
 	# essentially used to see whether the athlete has completed the workout
-	cursor.execute('SELECT * FROM does D WHERE D.uid=%s AND D.wid=%s',
-				   (uid, wid))
+	cursor.execute('SELECT * FROM does D WHERE D.uid=%s AND D.wid=%s', (uid, wid,))
 	# athlete has not completed workout
 	if cursor.rowcount == 0:
 		completed = False
 		cursor.execute("""SELECT E.name, C.reps, E.eid
                         FROM Exercise E, consists_of C
-                        WHERE C.wid = %s AND E.eid = C.eid""",
-					   (wid,))
+                        WHERE C.wid = %s AND E.eid = C.eid""", (wid,))
 		exercises = cursor.fetchall()
 	else:
 		completed = True
 		# if completed, we query the performance table instead
 		cursor.execute("""SELECT E.name, P.max_weight
                         FROM Exercise E, performance P
-                        WHERE P.uid = %s AND P.wid = %s AND E.eid = P.eid""",
-					   (uid, wid))
+                        WHERE P.uid = %s AND P.wid = %s AND E.eid = P.eid""", (uid, wid,))
 		exercises = cursor.fetchall()
 
 	# get tid for link to teams workout page
@@ -481,7 +467,7 @@ def athlete_info(uid):
 	# get general info about athlete
 	cursor.execute("""SELECT U.name, A.height, A.weight
                       FROM User U, Athlete A
-                      WHERE U.uid = A.uid AND U.uid = %s""", (uid,))
+                      WHERE U.uid = A.uid AND U.uid = %s""",  (uid,))
 	athlete = cursor.fetchone()
 
 	cursor.execute("""SELECT M.tid, T.school FROM member_of M, Team T
@@ -501,8 +487,7 @@ def athlete_info(uid):
                       FROM Workout
                       WHERE tid=%s
                       ORDER BY date_assigned DESC
-                      LIMIT 5""",
-					   (tid,))
+                      LIMIT 5""", (tid,))
 		workouts = cursor.fetchall()
 
 	return render_template('athlete.html',
@@ -524,8 +509,8 @@ def input(wid):
 	for eid in eids:
 		reps = int(request.form['reps%s' % eid])
 		weight = int(request.form['max%s' % eid])
-		cursor.execute('INSERT INTO performance VALUES (%s, %s, %s, %s, %s)', (eid[0], uid, wid, reps, weight))
-	cursor.execute('INSERT INTO does VALUES (%s, %s, %s)', (wid, uid, datetime.now()))
+		cursor.execute('INSERT INTO performance VALUES (%s, %s, %s, %s, %s)', (eid[0], uid, wid, reps, weight,))
+	cursor.execute('INSERT INTO does VALUES (%s, %s, %s)', (wid, uid, strdatetime.now(),))
 	g.db.commit()
 	return redirect(url_for('athlete_performance', uid=uid, wid=wid))
 
@@ -538,23 +523,23 @@ def login():
 	email = request.form['email']
 	password = request.form['password']
 	cursor = g.db.cursor()
-	cursor.execute('SELECT uid, name, password FROM User WHERE email = %s',
-				   (email,))
+	cursor.execute('SELECT uid, name, password FROM User WHERE email = %s', (email, ) )
 
 	if  int(cursor.rowcount) == 1:
-		user = cursor.fetchone(); 
-
-		if check_password_hash(user[2], password):
+		user = cursor.fetchone();
+		print("I'm here."); 
+		if user[2] == password:
 			session['user_id'] = user[0]
 			session['user_name'] = user[1]
+			
 
-			cursor.execute('SELECT isAdmin FROM User U WHERE U.uid = %s AND U.isAdmin = TRUE', (user[0]))
+			cursor.execute('SELECT isAdmin FROM User U WHERE U.uid = %s AND U.isAdmin = TRUE', (user[0],))
 
 			if int(cursor.rowcount) == 1:
 				session['user_type'] = 'admin';
 				return redirect(url_for('index')); 
 			else: 
-				cursor.execute('SELECT salary FROM Coach C WHERE C.uid = %s', (user[0]))
+				cursor.execute('SELECT salary FROM Coach C WHERE C.uid = %s', (user[0],))
 				if int(cursor.rowcount == 0):
 					session['user_type'] = 'athlete'
 				else: 
@@ -600,16 +585,17 @@ def register():
 		season=request.form['season']
 		school=request.form['school']
 		city = request.form['city'];
-		mascot = request.form['mascot']; 
-		cursor.execute("INSERT INTO SportSeason(name, season) VALUES (%s, %s)", (sport, season));
-		cursor.execute("INSERT INTO Sport(name) VALUES (%s)", (sport));
-		cursor.execute("INSERT INTO TeamMascot(school, mascot) VALUES (%s, %s)",(school, mascot)); 
-		cursor.execute("INSERT INTO Team(school, hometown) VALUES (%s, %s)", (school, city));
-		cursor.execute("SELECT T.tid FROM Team T WHERE T.school=%s AND T.hometown=%s ORDER BY T.tid DESC", (school, city));
+		mascot = request.form['mascot'];
+
+		cursor.execute("INSERT INTO SportSeason(name, season) VALUES (%s, %s)", (sport, season,));###
+		cursor.execute("INSERT INTO Sport(name) VALUES (%s)", (sport,));
+		cursor.execute("INSERT INTO TeamMascot(school, mascot) VALUES (%s, %s)", (school, mascot,)); ###
+		cursor.execute("INSERT INTO Team(school, hometown) VALUES (%s, %s)", (school,city,));
+		cursor.execute("SELECT T.tid FROM Team T WHERE T.school=%s AND T.hometown=%s ORDER BY T.tid DESC", (school, city,));
 		tid = cursor.fetchone()[0]; 
-		cursor.execute("SELECT S.sid FROM Sport S WHERE S.name=%s", (sport));
-		sid = cursor.fetchone()[0]; 
-		cursor.execute("INSERT INTO plays(sid, tid) VALUES (%s, %s)", (sid, tid)); 
+		cursor.execute("SELECT S.sid FROM Sport S WHERE S.name=%s" , (sport, ));
+		sid = cursor.fetchone()[0];
+		cursor.execute("INSERT INTO plays(sid, tid) VALUES (%s, %s)", (sid, tid,)); 
 	else:
 		tid = int(request.form['team']);
 
@@ -618,24 +604,19 @@ def register():
 		weight = float(request.form['weight'])
 		height = float(request.form['height'])
 
-		cursor.execute('INSERT INTO User(name, email, password) VALUES(%s, %s, %s)',
-					   (name, email, generate_password_hash(password)))
+		cursor.execute('INSERT INTO User(name, email, password) VALUES(%s, %s, %s)', (name, email, password,))
 		uid = cursor.lastrowid
-		cursor.execute('INSERT INTO Athlete VALUES(%s, %s, %s)',
-					   (uid, height, weight))
-		cursor.execute('INSERT INTO member_of VALUES(%s, %s, "Bench", NextTeamNumber(%s))',
-					   (uid, tid, tid))
+		cursor.execute('INSERT INTO Athlete VALUES(%s, %s, %s)',  (uid, height, weight,))
+		cursor.execute('INSERT INTO member_of VALUES(%s, %s, "Bench", NextTeamNumber(%s))' %(uid, tid, tid))
 	# if the user is a coach, then we insert them into the Coach table
 	# and have them coach a team, as well as insert them into the User table
 	elif user_type == 'coach':
 		salary = float(request.form['salary'])
 
-		cursor.execute('INSERT INTO User(name, email, password) VALUES(%s, %s, %s)',
-					   (name, email, generate_password_hash(password)))
+		cursor.execute('INSERT INTO User(name, email, password) VALUES(%s, %s, %s)', (name, email, password,))
 		uid = cursor.lastrowid
-		cursor.execute('INSERT INTO Coach VALUES(%s, %s)', (uid, salary))
-		cursor.execute('INSERT INTO coaches VALUES(%s, %s, %s)',
-					   (uid, tid, datetime.now()))
+		cursor.execute('INSERT INTO Coach VALUES(%s, %s)', (uid, salary,))
+		cursor.execute('INSERT INTO coaches VALUES(%s, %s, %s)', (uid, tid, datetime.now(),))
 
 
 	# commit the transaction

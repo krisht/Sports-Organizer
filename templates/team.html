@@ -28,7 +28,7 @@
                     <td>{{ player[3] }}</td>
                     {% if current_coach %}
                     <td>
-                        <a id='editor' class='btn btn-warning' href='#'>
+                        <a id='editor' class='btn btn-warning' onclick='myFunction( {{tid}},  {{player[0]}} , {{player[1]}}, "{{player[3]}}" )' href='#'>
 
                             <i class="icon-edit icon-white"></i>
                         </a>
@@ -72,4 +72,27 @@
         {% endif %}
     </div>
 </div>
+
+<script>
+    function myFunction(tid, uid, num, pos) {
+
+        var newpos = prompt("Change position: ", pos); 
+        var newnum = prompt("Change number: ", num); 
+
+        str1 = "/team/"; 
+        str2 = tid.toString();
+        str3 = "/athlete/"
+        str4 = uid.toString(); 
+        str5 = "/"; 
+        str6 = newnum.toString(); 
+        str7 = "/"
+        str8 = newpos.toString(); 
+        str9 = "/edit"; 
+
+        str1 = str1.concat(str2, str3, str4, str5, str6, str7, str8, str9); 
+
+        window.location.href = str1; 
+
+}
+</script>
 {% endblock %}
