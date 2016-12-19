@@ -17,22 +17,26 @@
     {% endfor %}
 </ul>
 
-        {% if current_coach %}
-        <h1>Recent Workouts  <a id='create' class='btn btn-success' href='{{ url_for('create_workout', tid=tid) }}'><i class="icon-plus-sign icon-white"></i> Create a workout</a></h1>
-            <table class='table table-striped'>
-                <tbody>
-                {% for workout in workouts %}
-                <tr>
-                    <th>
-                        <a href='{{ url_for('workout_info', tid=tid, wid=workout[0]) }}'>
-                            {{ workout[1].strftime('%D') }}
-                        </a> 
-                    </th>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
+    {% if current_coach %}
+        <form class="form-horizontal" id="changecoachcreds" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <input type="text" name="name" class="input-large" placeholder="Name"><br />
+            <input type="text" name="email" class="input-large" placeholder="Email Address"><br />
+            <input type="password" name="password" class="input-large" placeholder="Change password"><br />
+            <div>
+                <label for="files" class="btn"> Select Profile Image </label>
+                <input id="files" style="visibility:hidden; "type="file" name="file" class = "input-large" placeholder="Picture"><br/>
+            </div>
+            <a href='{{ url_for('change_coach_credentials', uid = uid ) }}'>
+            <button type="submit" class="btn">Change Creds</button>
+            </a>
+        </fieldset>
+    </form>
+
+        
+    {% endif %}
+
+
 
 {% endblock %}
 

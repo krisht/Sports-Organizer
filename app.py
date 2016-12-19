@@ -41,7 +41,8 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/changecreds', methods=['POST'])
+@app.route('/changeadmincreds', methods=['POST'])
+@login_required
 def change_admin_credentials():
 	# Grab the information from the request body
 	name = request.form['name']
@@ -49,41 +50,64 @@ def change_admin_credentials():
 	email = request.form['email']
 	password = request.form['password']
 
-	cursor = g.db.cursor()
-	# first check if user with email address already exists
-	cursor.execute('SELECT * FROM User WHERE email = %s', (email,))
-	# if any user was found, then cannot register with that email
-	if int(cursor.rowcount) != 0:
-		flash('That email address is already taken.', 'error')
-		return redirect(url_for('index'))
+	cursor = g.db.cursor(); 
 
-	pw = generate_password_hash(password)
+	uid = session['user_id']; 
 
-	cursor.execute('UPDATE User SET name = %s, email=%s, password=%s', (name, email, pw))
+	cursor.execute("SELECT isAdmin FROM User WHERE uid = %s",  (uid));
+
+	if((int(cursor.rowcount) != 1) or (cursor.fetchone()[0] == False)): 
+		flash('You cannot change an admin\'s credentials!', 'error');
+
+	cursor.execute("SELECT U.email FROM User U WHERE U.email = %s AND U.uid <> %s", (email, uid)); 
+
+	if((int(cursor.rowcount) > 0)):
+		flash("That email is already taken!", "error");
+		return redirect(url_for('index')); 
+
+
+
+	pw = generate_password_hash(password); 
+
+	cursor.execute("UPDATE User SET name = %s, email=%s, password=%s WHERE uid = %s", (name, email, pw, uid)); 
+
+	if file and allowed_file(file.filename):
+		filename = secure_filename(file.filename); 
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(session['user_id']) + ".jpg"))
+
+	g.db.commit(); 
 
 	return redirect(url_for('index'))
 
-@app.route('/changecreds', methods=['POST'])
-def change_coach_credentials():
+@app.route('/changecoachcreds', methods=['POST'])
+@login_required
+def change_coach_credentials(uid):
+
+	cursor = g.db.cursor(); 
 	# Grab the information from the request body
 	name = request.form['name']
 	file = request.files['file']
 	email = request.form['email']
 	password = request.form['password']
 	salary = request.form['salary']; 
-	
 
-	cursor = g.db.cursor()
-	# first check if user with email address already exists
-	cursor.execute('SELECT * FROM User WHERE email = %s', (email,))
-	# if any user was found, then cannot register with that email
-	if int(cursor.rowcount) != 0:
-		flash('That email address is already taken.', 'error')
-		return redirect(url_for('index'))
+	if uid==session['user_id'] or session['user_type'] == 'admin':
+		cursor.execute("""SELECT U.email FROM User U WHERE U.email = %s AND U.uid <> %s"""(email, uid)); 
+		if ((int(cursor.rowcount) > 0)):
+			flash("That email is already taken!", "error"); 
+			return redirect(url_for('index')); 
 
-	pw = generate_password_hash(password)
+		pw = generate_password_hash(password); 
 
-	cursor.execute('UPDATE User SET name = %s, email=%s, password=%s', (name, email, pw))
+		cursor.execute('UPDATE User SET name = %s, email=%s, password=%s WHERE uid = %s', (name, email, pw, uid ))
+		cursor.execute('UPDATE Coach SET salary=%s WHERE uid = %s', (uid))
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename); 
+			file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(session['user_id']) + ".jpg"))
+
+		g.db.commit()
+
+	flash('You don\'t have permission to change credentials!', 'error');
 
 	return redirect(url_for('index'))
 
@@ -168,7 +192,13 @@ def admin_info(uid):
 @app.route('/coach/<int:uid>')
 @login_required
 def coach_info(uid):
+
 	cursor = g.db.cursor()
+
+	cursor.execute("""SELECT * FROM Coach C WHERE C.uid = %s""", (uid)); 
+
+	if int(cursor.rowcount) == 0: 
+		return redirect(url_for('index'));  # Show page not found
 
 	cursor.execute("""SELECT C.tid, T.school FROM coaches C, Team T
                     WHERE C.uid=%s AND C.tid=T.tid""", (uid,))
@@ -184,8 +214,12 @@ def coach_info(uid):
 	if os.path.isfile('./static/%s.jpg'%uid):
 		path = '/static/%s.jpg'%uid;
 
-	# if we are requesting our own page, then we want to show them the salary 
-	
+	current_coach = False;
+
+	if uid == session['user_id']: 
+		current_coach = True; 
+
+	# if we are requesting our own page, then we want to show them the salary 	
 	if uid == session['user_id'] or session['user_type'] == 'admin':
 		cursor.execute('SELECT salary FROM Coach WHERE uid = %s', (uid,))
 		salary = cursor.fetchone()[0]
@@ -193,7 +227,7 @@ def coach_info(uid):
 	else:
 		salary = None
 
-	return render_template('coach.html', salary=salary, teams=teams, uid=uid, picture = path, user = user)
+	return render_template('coach.html', salary=salary, teams=teams, uid=uid, picture = path, user = user, current_coach= current_coach); 
 
 
 @app.route('/team<int:tid>/athlete/<int:uid>/edit')
