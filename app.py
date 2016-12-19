@@ -1,7 +1,6 @@
 import MySQLdb as mysql
 from flask import (Flask, g, request, session, render_template, redirect,
 				   url_for, flash, jsonify)
-from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
 from functools import wraps
@@ -13,6 +12,12 @@ import sys
 import os
 
 import os.path
+
+def now_milliseconds():
+   return int(time.time() * 1000)
+
+def date_time_milliseconds(date_time_obj):
+   return int(time.mktime(date_time_obj.timetuple()) * 1000)
 
 UPLOAD_FOLDER = './static'
 ALLOWED_EXTENSIONS = set(['jpg'])
@@ -67,7 +72,7 @@ def change_admin_credentials():
 
 
 
-	pw = generate_password_hash(password); 
+	pw = password; 
 
 	cursor.execute("UPDATE User SET name = %s, email=%s, password=%s WHERE uid = %s",  (name, email, pw, uid,)); 
 
@@ -79,7 +84,53 @@ def change_admin_credentials():
 
 	return redirect(url_for('index'))
 
-@app.route('/changecoachcreds', methods=['POST'])
+@app.route('/addteam', methods=['POST'])
+@login_required
+def add_team_to_coach():
+	tid = request.form['team'];
+	sport = ""; 
+	season =""; 
+	school=""; 
+	cursor = g.db.cursor(); 
+	uid = session['user_id']; 
+	if tid == "other":
+		sport=request.form['sport']
+		season=request.form['season']
+		school=request.form['school']
+		city = request.form['city'];
+		mascot = request.form['mascot'];
+
+		cursor.execute("SELECT * FROM SportSeason S WHERE S.name = %s", (sport, )); 
+
+		if cursor.rowcount == 0: 
+			cursor.execute("INSERT INTO SportSeason(name, season) VALUES (%s, %s)", (sport, season,));
+
+		cursor.execute("INSERT INTO Sport(name) VALUES (%s)", (sport,));
+
+		cursor.execute("SELECT * FROM TeamMascot T WHERE T.school = %s", (school, ));
+
+		if cursor.rowcount == 0:
+			cursor.execute("INSERT INTO TeamMascot(school, mascot) VALUES (%s, %s)", (school, mascot,)); ###
+			
+		cursor.execute("INSERT INTO Team(school, hometown) VALUES (%s, %s)", (school,city,));
+		cursor.execute("SELECT T.tid FROM Team T WHERE T.school=%s AND T.hometown=%s ORDER BY T.tid DESC", (school, city,));
+		tid = cursor.fetchone()[0]; 
+		cursor.execute("SELECT S.sid FROM Sport S WHERE S.name=%s" , (sport, ));
+		sid = cursor.fetchone()[0];
+		cursor.execute("INSERT INTO plays(sid, tid) VALUES (%s, %s)", (sid, tid,)); 
+	else:
+		tid = int(request.form['team']);
+
+
+	cursor.execute('INSERT INTO coaches VALUES(%s, %s, %s)', (uid, tid, datetime.now(),))
+
+	g.db.commit(); 
+
+	return redirect(url_for('coach_info', uid=uid))
+
+
+
+@app.route('/changecoachcreds/<uid>', methods=['POST'])
 @login_required
 def change_coach_credentials(uid):
 
@@ -90,7 +141,7 @@ def change_coach_credentials(uid):
 	email = request.form['email']
 	password = request.form['password']
 	salary = request.form['salary']; 
-
+	print("hellooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"); 
 	if uid==session['user_id'] or session['user_type'] == 'admin':
 		cursor.execute("""SELECT U.email FROM User U WHERE U.email = %s AND U.uid <> %s""", (email, uid, )); 
 		if ((int(cursor.rowcount) > 0)):
@@ -123,8 +174,10 @@ def get_statistics():
 	avgExerciseWeights = cursor.fetchall(); 
 	cursor.execute("SELECT U.name, E.name, MAX(P.max_weight) FROM Exercise E, performance P, User U WHERE P.eid = E.eid AND P.uid=U.uid GROUP BY E.name")
 	maxExerciseWeights = cursor.fetchall(); 
+	cursor.execute("SELECT S.name, COUNT(M.uid) FROM Sport S, member_of M, plays P WHERE S.sid = P.sid AND P.tid = M.tid GROUP BY S.name"); 
+	teamSize = cursor.fetchall(); 
 
-	return render_template('statistics.html', avgExercises = avgExercises, maxExercises = maxExercises,avgExerciseWeights = avgExerciseWeights, maxExerciseWeights = maxExerciseWeights); 
+	return render_template('statistics.html', avgExercises = avgExercises, maxExercises = maxExercises,avgExerciseWeights = avgExerciseWeights, maxExerciseWeights = maxExerciseWeights, teamSize = teamSize ); 
 
 # If user is not logged in, prompts user to sign in
 # Checked
@@ -168,13 +221,15 @@ def admin_info(uid):
 
 	coaches = cursor.fetchall(); 
 
+	cursor.execute("SELECT U.name, U.email, S.name, M.position, T.school, U.uid FROM User U, Athlete A, member_of M, Team T, plays P, Sport S WHERE U.uid = A.uid AND M.uid = A.uid AND M.tid = T.tid AND P.tid = T.tid AND P.sid = S.sid")
+	
 	athletes = cursor.fetchall(); 
 
 	path = '/static/default.jpg';
 
 	path = '/static/default.jpg';
 	if os.path.isfile('./static/%s.jpg'%uid):
-		path = '/static/%s.jpg'%uid;
+		path = '/static/%s.jpg'% (uid,);
 
 
 	return render_template('admin.html', uid=uid, picture = path, user = user, coaches = coaches, athletes  = athletes)
@@ -198,8 +253,8 @@ def coach_info(uid):
 	if int(cursor.rowcount) == 0: 
 		return redirect(url_for('index'));  # Show page not found
 
-	cursor.execute("""SELECT C.tid, T.school FROM coaches C, Team T
-                    WHERE C.uid=%s AND C.tid=T.tid""", (uid,))
+	cursor.execute("""SELECT C.tid, T.school, S.name FROM coaches C, Team T, plays P, Sport S
+                    WHERE C.uid=%s AND C.tid=T.tid AND P.tid = T.tid AND P.sid = S.sid""", (uid,))
 	teams = cursor.fetchall()
 
 	cursor.execute("""SELECT U.name FROM User U WHERE U.uid = %s""", (uid,));
@@ -210,11 +265,16 @@ def coach_info(uid):
 
 	path = '/static/default.jpg';
 	if os.path.isfile('./static/%s.jpg'%uid):
-		path = '/static/%s.jpg'%uid;
+		path = '/static/%s.jpg'% (uid,);
 
 	current_coach = False;
 
-	if uid == session['user_id']: 
+	cursor.execute("""SELECT T.tid, T.school, S.name FROM Team T, plays P, Sport S
+                        WHERE T.tid = P.tid AND P.sid = S.sid
+                        ORDER BY T.school""")
+	diffteams = cursor.fetchall()
+
+	if uid == session['user_id'] or session['user_type'] == 'admin': 
 		current_coach = True; 
 
 	# if we are requesting our own page, then we want to show them the salary 	
@@ -225,14 +285,13 @@ def coach_info(uid):
 	else:
 		salary = None
 
-	return render_template('coach.html', salary=salary, teams=teams, uid=uid, picture = path, user = user, current_coach= current_coach); 
+	return render_template('coach.html', salary=salary, teams=teams, uid=uid, picture = path, user = user, current_coach= current_coach, diffteams = diffteams); 
 
 
 @app.route('/team/<int:tid>/athlete/<int:auid>/<int:num>/<pos>/edit')
 @login_required
 #Fix this
 def edit_athlete(tid, auid, num, pos):
-	print("TTTTTTTTTTTTIIIIIIIIIIIIIDDDDDDDDDD", tid); 
 	cursor = g.db.cursor(); 
 	cursor.execute('SELECT uid FROM coaches WHERE tid=%s AND uid=%s', (tid, session['user_id'], ))
 
@@ -476,7 +535,7 @@ def athlete_info(uid):
 
 	path = '/static/default.jpg';
 	if os.path.isfile('./static/%s.jpg'%uid):
-		path = '/static/%s.jpg'%uid;
+		path = '/static/%s.jpg'% (uid,);
 
 	workouts = []
 	# get recent workouts
@@ -527,7 +586,6 @@ def login():
 
 	if  int(cursor.rowcount) == 1:
 		user = cursor.fetchone();
-		print("I'm here."); 
 		if user[2] == password:
 			session['user_id'] = user[0]
 			session['user_name'] = user[1]
@@ -587,9 +645,19 @@ def register():
 		city = request.form['city'];
 		mascot = request.form['mascot'];
 
-		cursor.execute("INSERT INTO SportSeason(name, season) VALUES (%s, %s)", (sport, season,));###
+
+		cursor.execute("SELECT * FROM SportSeason S WHERE S.name = %s", (sport, )); 
+
+		if cursor.rowcount == 0: 
+			cursor.execute("INSERT INTO SportSeason(name, season) VALUES (%s, %s)", (sport, season,));
+
 		cursor.execute("INSERT INTO Sport(name) VALUES (%s)", (sport,));
-		cursor.execute("INSERT INTO TeamMascot(school, mascot) VALUES (%s, %s)", (school, mascot,)); ###
+
+		cursor.execute("SELECT * FROM TeamMascot T WHERE T.school = %s", (school, ));
+
+		if cursor.rowcount == 0:
+			cursor.execute("INSERT INTO TeamMascot(school, mascot) VALUES (%s, %s)", (school, mascot,)); ###
+
 		cursor.execute("INSERT INTO Team(school, hometown) VALUES (%s, %s)", (school,city,));
 		cursor.execute("SELECT T.tid FROM Team T WHERE T.school=%s AND T.hometown=%s ORDER BY T.tid DESC", (school, city,));
 		tid = cursor.fetchone()[0]; 

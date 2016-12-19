@@ -13,28 +13,52 @@
 
 <ul class="unstyled">
     {% for team in teams %}
-    <li><h2><a href='{{ url_for('team_info', tid=team[0]) }}'>{{ team[1] }}</a></h2></li>
+    <li><h2><a href='{{ url_for('team_info', tid=team[0]) }}'>{{ team[1] }} - {{team[2]}}</a></h2></li>
     {% endfor %}
 </ul>
 
-    {% if current_coach %}
-        <form class="form-horizontal" id="changecoachcreds" method="post" enctype="multipart/form-data">
-        <fieldset>
-            <input type="text" name="name" class="input-large" placeholder="Name"><br />
-            <input type="text" name="email" class="input-large" placeholder="Email Address"><br />
-            <input type="password" name="password" class="input-large" placeholder="Change password"><br />
-            <div>
-                <label for="files" class="btn"> Select Profile Image </label>
-                <input id="files" style="visibility:hidden; "type="file" name="file" class = "input-large" placeholder="Picture"><br/>
-            </div>
-            <a href='{{ url_for('change_coach_credentials', uid = uid ) }}'>
-            <button type="submit" class="btn">Change Creds</button>
-            </a>
-        </fieldset>
-    </form>
 
+<form class="form-horizontal" id="addteam" action="{{url_for('add_team_to_coach')}}" method="post" enctype="multipart/form-data">
+<fieldset>
+<legend>Add Teams</legend>
+        <select id="teams" name="team">
+        {% for team in diffteams %}
+        <option value="{{ team[0] }}">{{ team[1] }} - {{ team[2] }}</option>
+        {% endfor %}
+        <option value="other">Other</option>
+    </select>
+
+    <div class='newteams'>
+        <input class='newteams' type="text" name="school" class="input-medium" placeholder="School"><br />
+        <input class='newteams' type="text" name="sport" class="input-medium" placeholder="Sport"><br />
+        <input class='newteams' type="text" name="season" class="input-medium" placeholder="Season"><br />
+        <input class='newteams' type="text" name="city" class="input-medium" placeholder="Hometown"><br />
+        <input class='newteams' type="text" name="mascot" class="input-medium" placeholder="Mascot"><br />
         
-    {% endif %}
+    </div>
+    <button type="submit" class="btn">Addteam</button>
+</fieldset>
+</form>
+
+<script type='text/javascript'>
+    $(document).ready(function() {
+
+        $('.newteams').hide(); 
+
+        $('#teams').change(function(){
+            if ($(this).find('option:selected').attr('value') === 'other') {
+                $('.newteams').show();
+            }
+            else {
+                $('.newteams').hide();
+            }
+        });
+
+    });
+
+</script>
+
+
 
 
 

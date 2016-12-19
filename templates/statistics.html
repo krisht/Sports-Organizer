@@ -11,146 +11,174 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="panel-title"
-                        data-toggle="collapse" 
-                        data-target="#collapseOne">
-                        Average Reps on Each Exercise
-                    </h2>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse">
-                    <table class='panel-body table table-striped '>
-                        <thead>
-                            <tr>
-                                <th>Exercise Name</th>
-                                <th>Average Reps</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in avgExercises %}
-                            <tr>
-                                <td>{{ item[0] }}</td>
-                                <td>{{ item[1] }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                    data-toggle="collapse" 
+                    data-target="#collapseOne">
+                    Average Reps on Each Exercise
+                </h2>
             </div>
-            <!-- Second Panel -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="panel-title" 
-                        data-toggle="collapse" 
-                        data-target="#collapseTwo">
-                        Athletes That Performed Max Reps for Exercises
-                    </h2>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
-                    <table class='table table-striped '>
-                        <thead>
-                            <tr>
-                                <th>Athlete Name</th>
-                                <th>Exercise Name</th>
-                                <th>Max Reps Perfomed</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in maxExercises %}
-                            <tr>
-                                <td>{{ item[0] }}</td>
-                                <td>{{ item[1] }}</td>
-                                <td>{{ item[2] }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- Third Panel -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="panel-title"
-                        data-toggle="collapse"
-                        data-target="#collapseThree">
-                        Average Weights Lifted
-                    </h2>
-                </div>
-                <div id="collapseThree" class="panel-collapse collapse">
-                    <table class='table table-striped '>
-                        <thead>
-                            <tr>
-                                <th>Exercise Name</th>
-                                <th>Average Weight Perfomed</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in avgExerciseWeights %}
-                            <tr>
-                                <td>{{ item[0] }}</td>
-                                <td>{{ item[1] }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="panel-title"
-                        data-toggle="collapse"
-                        data-target="#collapseFour">
-                        Record Weights Lifted
-                    </h2>
-                </div>
-                <div id="collapseFour" class="panel-collapse collapse">
-                    <table class='table table-striped '>
-                        <thead>
-                            <tr>
-                                <th>Athlete Name</th>
-                                <th>Exercise Name</th>
-                                <th>Max Weight Perfomed</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in maxExerciseWeights %}
-                            <tr>
-                                <td>{{ item[0] }}</td>
-                                <td>{{ item[1] }}</td>
-                                <td>{{ item[2] }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+            <div id="collapseOne" class="panel-collapse collapse">
+                <table class='panel-body table table-striped '>
+                    <thead>
+                        <tr>
+                            <th>Exercise Name</th>
+                            <th>Average Reps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in avgExercises %}
+                        <tr>
+                            <td>{{ item[0] }}</td>
+                            <td>{{ item[1] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
+        <!-- Second Panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title" 
+                data-toggle="collapse" 
+                data-target="#collapseTwo">
+                Athletes That Performed Max Reps for Exercises
+            </h2>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+            <table class='table table-striped '>
+                <thead>
+                    <tr>
+                        <th>Athlete Name</th>
+                        <th>Exercise Name</th>
+                        <th>Max Reps Perfomed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in maxExercises %}
+                    <tr>
+                        <td>{{ item[0] }}</td>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
+    <!-- Third Panel -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title"
+            data-toggle="collapse"
+            data-target="#collapseThree">
+            Average Weights Lifted
+        </h2>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+        <table class='table table-striped '>
+            <thead>
+                <tr>
+                    <th>Exercise Name</th>
+                    <th>Average Weight Perfomed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in avgExerciseWeights %}
+                <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[1] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title"
+        data-toggle="collapse"
+        data-target="#collapseFour">
+        Record Weights Lifted
+    </h2>
+</div>
+<div id="collapseFour" class="panel-collapse collapse">
+    <table class='table table-striped '>
+        <thead>
+            <tr>
+                <th>Athlete Name</th>
+                <th>Exercise Name</th>
+                <th>Max Weight Perfomed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in maxExerciseWeights %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title"
+        data-toggle="collapse"
+        data-target="#collapseFive">
+        Team Sizes For Each Sport
+    </h2>
+</div>
+<div id="collapseFive" class="panel-collapse collapse">
+    <table class='table table-striped '>
+        <thead>
+            <tr>
+                <th>Sport Name</th>
+                <th>Size</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in teamSize %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+</div>
 </div>
 
 <script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer>
-    
-$(function () {
 
-    var active = true;
+    $(function () {
 
-    $('#collapse-init').click(function () {
-        if (active) {
-            active = false;
-            $('.panel-collapse').collapse('show');
-            $('.panel-title').attr('data-toggle', '');
-            $(this).text('Enable accordion behavior');
-        } else {
-            active = true;
-            $('.panel-collapse').collapse('hide');
-            $('.panel-title').attr('data-toggle', 'collapse');
-            $(this).text('Disable accordion behavior');
-        }
+        var active = true;
+
+        $('#collapse-init').click(function () {
+            if (active) {
+                active = false;
+                $('.panel-collapse').collapse('show');
+                $('.panel-title').attr('data-toggle', '');
+                $(this).text('Enable accordion behavior');
+            } else {
+                active = true;
+                $('.panel-collapse').collapse('hide');
+                $('.panel-title').attr('data-toggle', 'collapse');
+                $(this).text('Disable accordion behavior');
+            }
+        });
+
+        $('#accordion').on('show.bs.collapse', function () {
+            if (active) $('#accordion .in').collapse('hide');
+        });
+
     });
-    
-    $('#accordion').on('show.bs.collapse', function () {
-        if (active) $('#accordion .in').collapse('hide');
-    });
-
-});
 
 
 </script>
