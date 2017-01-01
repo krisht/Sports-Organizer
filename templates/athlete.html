@@ -30,9 +30,26 @@
             </table>
             {% endfor %}
         </ul>
+        <form class="form-horizontal" id="changeadmincreds" action='{{ url_for('change_admin_credentials') }}' method="post" enctype="multipart/form-data">
+    <fieldset>
+        <input type="text" name="name" class="input-large" placeholder="Name"><br />
+        <input type="text" name="email" class="input-large" placeholder="Email Address"><br />
+        <input type="password" name="password" class="input-large" placeholder="Change password"><br />
+        <div>
+            <label for="files" class="btn"> Select Profile Image </label>
+            <input id="files" style="visibility:hidden; "type="file" name="file" class = "input-large" placeholder="Picture"><br/>
+        </div>
+        <button type="submit" class="btn">Change Creds</button>
+    </fieldset>
+</form>
     </div>
 
+
+
 </div>
+
+
+
 
 
 {% endblock %}

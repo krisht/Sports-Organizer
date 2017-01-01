@@ -18,6 +18,13 @@
 				</h2>
 			</div>
 			<div id="collapseOne" class="panel-collapse collapse">
+
+				<form class="form-horizontal" id="searchathletes"  method="post" enctype="multipart/form-data">
+					<fieldset>
+						<input type="search" id="searchAthletes" class="input-large" placeholder="Search">
+						<input type="button" onclick="msg()" class="btn" value="Search">
+					</fieldset>
+				</form>
 				<table class='panel-body table table-striped '>
 					<thead>
 						<tr>
@@ -57,11 +64,10 @@
 
 			<form class="form-horizontal" id="searchathletes"  method="post" enctype="multipart/form-data">
 				<fieldset>
-				<input type="search" id="searchAthletes" class="input-large" placeholder="Search">
+					<input type="search" id="searchAthletes" class="input-large" placeholder="Search">
 					<input type="button" onclick="msg()" class="btn" value="Search">
 				</fieldset>
 			</form>
-
 			<table class='table table-striped '>
 				<thead>
 					<tr>
@@ -94,22 +100,24 @@
 <br>
 
 
+<form class="form-horizontal" id="changeadmincreds" action='{{ url_for('change_admin_credentials') }}' method="post" enctype="multipart/form-data">
+	<fieldset>
+		<input type="text" name="name" class="input-large" placeholder="Name"><br />
+		<input type="text" name="email" class="input-large" placeholder="Email Address"><br />
+		<input type="password" name="password" class="input-large" placeholder="Change password"><br />
+		<div>
+			<label for="files" class="btn"> Select Profile Image </label>
+			<input id="files" style="visibility:hidden; "type="file" name="file" class = "input-large" placeholder="Picture"><br/>
+		</div>
+		<button type="submit" class="btn">Change Creds</button>
+	</fieldset>
+</form>
+
 
 
 
 </div>
 </div>
-
-<script>
-function msg() {
-	var key = document.getElementById("searchAthletes").value; 
-    var athletes = '{{athletes}}'; 
-
-    for(ii = 0; ii < athletes.length; ii++){
-    	console.log(athletes); 
-    }
-}
-</script>
 
 
 {% endblock %}

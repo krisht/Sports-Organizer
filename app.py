@@ -130,7 +130,7 @@ def add_team_to_coach():
 
 
 
-@app.route('/changecoachcreds/<uid>', methods=['POST'])
+@app.route('/changecoachcreds/<uid>')
 @login_required
 def change_coach_credentials(uid):
 
@@ -242,7 +242,7 @@ def admin_info(uid):
 #####################
 #Checked
 # Displays information about a coach including teams coached.
-@app.route('/coach/<int:uid>')
+@app.route('/coach/<int:uid>', methods=['POST', 'GET'])
 @login_required
 def coach_info(uid):
 
@@ -569,7 +569,7 @@ def input(wid):
 		reps = int(request.form['reps%s' % eid])
 		weight = int(request.form['max%s' % eid])
 		cursor.execute('INSERT INTO performance VALUES (%s, %s, %s, %s, %s)', (eid[0], uid, wid, reps, weight,))
-	cursor.execute('INSERT INTO does VALUES (%s, %s, %s)', (wid, uid, strdatetime.now(),))
+	cursor.execute('INSERT INTO does VALUES (%s, %s, %s)', (wid, uid, datetime.now(),))
 	g.db.commit()
 	return redirect(url_for('athlete_performance', uid=uid, wid=wid))
 
